@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GAS Dev Hub — Kepakaran & Glosari UI/UX</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..60,400;12..60,600;12..60,700;12..60,800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#060710;
+  --surface:#0c0d1e;
+  --card:#10112a;
+  --card2:#13152e;
+  --border:#1c1f42;
+  --border2:#252850;
+  --v1:#8B7FF7;
+  --v2:#06DDB0;
+  --v3:#FF5F6D;
+  --v4:#FFCA45;
+  --v5:#4EA8FF;
+  --v6:#FF8C42;
+  --text:#eceef8;
+  --muted:#6b72a0;
+  --faint:#3a3f6a;
+  --fh:'Bricolage Grotesque',sans-serif;
+  --fb:'Instrument Sans',sans-serif;
+}
+
+body{background:var(--bg);color:var(--text);font-family:var(--fb);min-height:100vh;overflow-x:hidden}
+
+/* ─── NOISE TEXTURE ─── */
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:0;opacity:.6;
+}
+
+/* ─── HERO ─── */
+.hero{
+  position:relative;padding:56px 24px 44px;text-align:center;
+  background:linear-gradient(170deg,#08091c 0%,#0b0c20 50%,#070818 100%);
+  border-bottom:1px solid var(--border);overflow:hidden;z-index:1;
+}
+.hero-glow{
+  position:absolute;pointer-events:none;
+  top:-120px;left:50%;transform:translateX(-50%);
+  width:700px;height:400px;
+  background:radial-gradient(ellipse,rgba(139,127,247,.12) 0%,rgba(6,221,176,.06) 50%,transparent 70%);
+}
+.hero-glow2{
+  position:absolute;pointer-events:none;
+  bottom:-80px;right:-100px;
+  width:400px;height:300px;
+  background:radial-gradient(ellipse,rgba(255,95,109,.07) 0%,transparent 70%);
+}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(139,127,247,.1);border:1px solid rgba(139,127,247,.25);
+  border-radius:999px;padding:5px 16px;
+  font-size:11px;font-weight:600;color:var(--v1);
+  letter-spacing:.8px;text-transform:uppercase;margin-bottom:22px;
+}
+.hero h1{
+  font-family:var(--fh);font-size:clamp(26px,6vw,52px);
+  font-weight:800;line-height:1.05;margin-bottom:14px;
+}
+.hero h1 em{font-style:normal;
+  background:linear-gradient(100deg,var(--v1) 0%,var(--v2) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.hero p{color:var(--muted);font-size:14px;max-width:480px;margin:0 auto 32px;line-height:1.7;font-weight:400}
+
+/* Stats row */
+.stats{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;margin-bottom:36px}
+.stat{text-align:center}
+.stat-n{
+  font-family:var(--fh);font-size:32px;font-weight:800;line-height:1;
+  background:linear-gradient(135deg,var(--v1),var(--v2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.stat-l{font-size:11px;color:var(--muted);margin-top:4px;letter-spacing:.3px}
+
+/* ─── MAIN NAV TABS ─── */
+.main-nav{
+  display:flex;justify-content:center;gap:8px;
+  position:relative;z-index:1;
+}
+.main-tab{
+  display:flex;align-items:center;gap:8px;
+  padding:12px 28px;border-radius:12px;
+  font-family:var(--fh);font-size:14px;font-weight:700;
+  border:1px solid var(--border);background:var(--card);
+  color:var(--muted);cursor:pointer;transition:all .25s;
+  letter-spacing:.2px;
+}
+.main-tab:hover{border-color:var(--v1);color:var(--text)}
+.main-tab.active{
+  background:linear-gradient(135deg,rgba(139,127,247,.18),rgba(6,221,176,.1));
+  border-color:var(--v1);color:var(--text);
+  box-shadow:0 0 24px rgba(139,127,247,.15);
+}
+.main-tab .tab-icon{font-size:18px}
+
+/* ─── CONTROLS BAR ─── */
+.controls{
+  background:var(--surface);border-bottom:1px solid var(--border);
+  padding:14px 20px;position:sticky;top:0;z-index:100;
+  display:flex;flex-direction:column;gap:10px;
+}
+.search-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.search-wrap{position:relative;flex:1;max-width:380px}
+.s-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:14px}
+.search-input{
+  width:100%;background:var(--card);border:1px solid var(--border);
+  border-radius:8px;padding:9px 12px 9px 34px;
+  font-family:var(--fb);font-size:13px;color:var(--text);outline:none;
+  transition:border-color .2s;
+}
+.search-input:focus{border-color:var(--v1)}
+.search-input::placeholder{color:var(--muted)}
+.filter-tabs{display:flex;flex-wrap:wrap;gap:6px}
+.ftab{
+  padding:5px 13px;border-radius:999px;
+  font-family:var(--fb);font-size:11.5px;font-weight:500;
+  border:1px solid var(--border);background:var(--card);
+  color:var(--muted);cursor:pointer;transition:all .18s;
+}
+.ftab:hover{border-color:rgba(139,127,247,.4);color:var(--text)}
+.ftab.active{background:var(--v1);border-color:var(--v1);color:#fff}
+
+/* ─── PAGES ─── */
+.page{display:none}
+.page.active{display:block}
+main{padding:28px 20px 60px;max-width:1160px;margin:0 auto;position:relative;z-index:1}
+
+/* ─── SECTION ─── */
+.section{margin-bottom:44px}
+.sec-hdr{
+  display:flex;align-items:center;gap:12px;
+  margin-bottom:18px;padding-bottom:14px;
+  border-bottom:1px solid var(--border);
+}
+.sec-ico{
+  width:38px;height:38px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;flex-shrink:0;
+}
+.sec-title{font-family:var(--fh);font-size:17px;font-weight:700}
+.sec-sub{font-size:12px;color:var(--muted);margin-top:2px}
+.sec-cnt{
+  margin-left:auto;font-size:11px;color:var(--muted);
+  background:var(--card);border:1px solid var(--border);
+  padding:3px 10px;border-radius:999px;white-space:nowrap;
+}
+
+/* ─── GRIDS ─── */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px}
+
+/* ─── EXPERTISE CARD ─── */
+.ecard{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:14px;overflow:hidden;
+  transition:transform .22s,box-shadow .22s,border-color .22s;
+  display:flex;flex-direction:column;
+}
+.ecard:hover{transform:translateY(-3px);box-shadow:0 14px 44px rgba(0,0,0,.45)}
+.ecard[hidden]{display:none!important}
+.ec-hdr{padding:16px 18px 13px;display:flex;gap:12px;align-items:flex-start}
+.ec-num{
+  width:32px;height:32px;border-radius:9px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--fh);font-size:12px;font-weight:800;flex-shrink:0;
+}
+.ec-name{font-family:var(--fh);font-size:14px;font-weight:700;margin-bottom:3px}
+.ec-en{font-size:11px;color:var(--muted)}
+.ec-div{height:1px;background:var(--border);margin:0 18px}
+.ec-body{padding:14px 18px 16px;flex:1;display:flex;flex-direction:column;gap:10px}
+.ec-desc{font-size:12.5px;color:#bcc1d8;line-height:1.65}
+.checks{display:flex;flex-direction:column;gap:5px}
+.chk{display:flex;align-items:flex-start;gap:7px;font-size:11.5px;color:var(--muted);line-height:1.4}
+.chk-dot{width:5px;height:5px;border-radius:50%;margin-top:5px;flex-shrink:0}
+.cmd-wrap{background:#060710;border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-top:auto}
+.cmd-top{display:flex;align-items:center;justify-content:space-between;padding:6px 10px;border-bottom:1px solid var(--border);font-size:9.5px;color:var(--muted);letter-spacing:.5px;text-transform:uppercase}
+.copy-btn{cursor:pointer;padding:2px 8px;border-radius:4px;background:var(--border);color:var(--muted);font-size:9px;font-family:var(--fb);border:none;transition:all .15s}
+.copy-btn:hover{background:var(--v1);color:#fff}
+.copy-btn.ok{background:var(--v2);color:var(--bg)}
+.cmd-txt{padding:8px 12px;font-size:11.5px;color:var(--v2);font-family:'Courier New',monospace;line-height:1.5}
+
+/* ─── COMBO SECTION ─── */
+.combo-wrap{
+  background:linear-gradient(135deg,#0d0e25,#0f1128);
+  border:1px solid rgba(139,127,247,.2);border-radius:16px;
+  padding:26px;margin-bottom:40px;
+}
+.combo-title{font-family:var(--fh);font-size:18px;font-weight:700;margin-bottom:6px}
+.combo-sub{font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.6}
+.combo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.ccard{
+  background:rgba(255,255,255,.025);border:1px solid var(--border);
+  border-radius:10px;padding:14px 16px;cursor:pointer;transition:all .2s;
+}
+.ccard:hover{border-color:var(--v1);background:rgba(139,127,247,.07)}
+.ccard-sc{font-size:11px;font-weight:600;color:var(--v4);margin-bottom:5px;letter-spacing:.3px}
+.ccard-p{font-size:12px;color:var(--muted);line-height:1.55;margin-bottom:10px}
+.ccard-copy{font-size:10px;color:var(--v1);display:flex;align-items:center;gap:4px}
+.ccard-copy:hover{color:var(--v2)}
+
+/* ─── GLOSSARY CARD ─── */
+.gcard{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:14px;overflow:hidden;
+  transition:transform .22s,box-shadow .22s;cursor:default;
+}
+.gcard:hover{transform:translateY(-3px);box-shadow:0 14px 44px rgba(0,0,0,.45)}
+.gcard[hidden]{display:none!important}
+.gc-top{padding:15px 17px 12px;display:flex;gap:11px;align-items:flex-start}
+.gc-badge{
+  background:var(--bg);border:1px solid var(--border);
+  border-radius:7px;padding:5px 9px;
+  font-family:var(--fh);font-size:10px;font-weight:700;
+  white-space:nowrap;flex-shrink:0;letter-spacing:.4px;
+}
+.gc-name{font-family:var(--fh);font-size:13.5px;font-weight:700;margin-bottom:3px}
+.gc-ms{font-size:11px;color:var(--muted);font-style:italic}
+.gc-div{height:1px;background:var(--border);margin:0 17px}
+.gc-body{padding:13px 17px 15px}
+.gc-desc{font-size:12.5px;color:#bcc1d8;line-height:1.65;margin-bottom:10px}
+.gc-eg{
+  font-size:11.5px;color:var(--muted);
+  background:var(--bg);border-left:3px solid;
+  padding:6px 10px;border-radius:0 6px 6px 0;line-height:1.55;
+}
+
+/* ─── DEMO AREA ─── */
+.demo{margin-top:10px;border:1px dashed var(--border);border-radius:8px;overflow:hidden;background:#080914}
+.demo-lbl{font-size:9px;color:var(--muted);text-align:center;padding:4px;letter-spacing:1px;text-transform:uppercase;border-bottom:1px dashed var(--border)}
+.demo-c{padding:12px;min-height:58px;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px}
+
+/* ─── DEMO ELEMENTS ─── */
+.d-box-out{background:rgba(255,95,109,.1);border:2px dashed var(--v3);padding:14px;border-radius:6px;position:relative;width:100%}
+.d-box-in{background:rgba(139,127,247,.18);border:2px solid var(--v1);padding:8px 14px;border-radius:4px;font-size:10px;text-align:center;font-weight:700}
+.d-mlbl{position:absolute;top:-8px;left:50%;transform:translateX(-50%);font-size:9px;color:var(--v3);background:#080914;padding:0 6px}
+.d-plbl{font-size:9px;color:var(--v1);text-align:center;margin-top:4px}
+
+.d-modal-ov{background:rgba(0,0,0,.55);border-radius:6px;padding:10px;width:100%;display:flex;align-items:center;justify-content:center}
+.d-modal{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;width:175px;box-shadow:0 8px 32px rgba(0,0,0,.5)}
+.d-m-title{font-size:11px;font-weight:700;margin-bottom:5px}
+.d-m-body{font-size:9.5px;color:var(--muted);margin-bottom:9px;line-height:1.4}
+.d-m-btns{display:flex;gap:5px}
+.d-btn-sm{flex:1;padding:5px;border-radius:5px;font-size:9px;font-weight:600;text-align:center}
+
+.dbtn{padding:6px 12px;border-radius:6px;font-size:10px;font-weight:600;border:1px solid transparent;font-family:var(--fb)}
+.dbtn-p{background:var(--v1);color:#fff}
+.dbtn-s{background:transparent;border-color:var(--v1);color:var(--v1)}
+.dbtn-g{background:transparent;color:var(--muted)}
+.dbtn-d{background:var(--v3);color:#fff}
+
+.d-toast{background:#1a2a1a;border:1px solid #2d5a2d;border-left:3px solid #4caf50;border-radius:8px;padding:8px 12px;display:flex;align-items:center;gap:8px;font-size:11px;width:100%}
+
+.d-tt-wrap{position:relative;display:inline-block}
+.d-tt-trig{background:var(--v1);color:#fff;padding:6px 12px;border-radius:6px;font-size:11px;font-weight:600}
+.d-tt-box{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#fff;color:#111;padding:5px 10px;border-radius:5px;font-size:10px;white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,.3)}
+.d-tt-box::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:#fff}
+
+.d-dd{position:relative;width:145px}
+.d-dd-t{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:6px 10px;font-size:11px;display:flex;justify-content:space-between;align-items:center}
+.d-dd-m{position:absolute;top:calc(100%+4px);left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:6px;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.d-dd-i{padding:6px 10px;font-size:10px;color:var(--muted);border-bottom:1px solid var(--border)}
+.d-dd-i:last-child{border-bottom:none}
+.d-dd-i.on{background:rgba(139,127,247,.15);color:var(--v1)}
+
+.d-bc{display:flex;align-items:center;gap:5px;font-size:11px}
+.d-bc-i{color:var(--muted)}
+.d-bc-i.on{color:var(--text);font-weight:600}
+.d-bc-s{color:var(--faint)}
+
+.d-tabs{width:100%}
+.d-tab-bar{display:flex;border-bottom:1px solid var(--border);margin-bottom:9px}
+.d-tab-i{padding:5px 11px;font-size:10px;font-weight:600;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px}
+.d-tab-i.on{color:var(--v1);border-bottom-color:var(--v1)}
+.d-tab-c{font-size:10px;color:var(--muted);padding:0 3px}
+
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+.skel{background:linear-gradient(90deg,#18192e 25%,#222445 50%,#18192e 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:4px;height:10px;margin-bottom:5px}
+.skel.sh{width:60%}
+.skel.av{width:30px;height:30px;border-radius:50%;flex-shrink:0}
+
+.d-badges{display:flex;flex-wrap:wrap;gap:6px}
+.d-badge{padding:3px 10px;border-radius:999px;font-size:10px;font-weight:600}
+
+.d-toggle{display:flex;align-items:center;gap:10px;font-size:11px}
+.tog-track{width:38px;height:21px;background:var(--v2);border-radius:999px;position:relative}
+.tog-thumb{position:absolute;top:3px;right:3px;width:15px;height:15px;background:#fff;border-radius:50%;box-shadow:0 2px 4px rgba(0,0,0,.3)}
+
+.d-acc{width:100%}
+.a-item{border:1px solid var(--border);border-radius:6px;margin-bottom:4px}
+.a-hdr{padding:7px 11px;font-size:11px;font-weight:600;display:flex;justify-content:space-between}
+.a-body{padding:7px 11px;font-size:10px;color:var(--muted);border-top:1px solid var(--border);line-height:1.5}
+
+.d-inp-g{display:flex;flex-direction:column;gap:7px;width:100%}
+.d-lbl{font-size:10px;font-weight:600;color:var(--muted)}
+.d-inp{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:7px 10px;font-size:11px;color:var(--text);font-family:var(--fb);outline:none;width:100%}
+.d-inp.foc{border-color:var(--v1);box-shadow:0 0 0 3px rgba(139,127,247,.15)}
+.d-inp.err{border-color:var(--v3)}
+.d-err{font-size:10px;color:var(--v3)}
+
+.d-prog{width:100%}
+.p-bg{background:var(--border);border-radius:999px;height:8px;overflow:hidden;margin-bottom:5px}
+.p-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--v1),var(--v2));width:68%}
+.p-lbl{font-size:10px;color:var(--muted);display:flex;justify-content:space-between}
+
+.d-chips{display:flex;flex-wrap:wrap;gap:6px}
+.d-chip{display:flex;align-items:center;gap:5px;background:var(--bg);border:1px solid var(--border);border-radius:999px;padding:4px 9px 4px 7px;font-size:10px}
+.chip-d{width:6px;height:6px;border-radius:50%}
+
+.d-grads{display:flex;flex-direction:column;gap:7px;width:100%}
+.d-grad{height:18px;border-radius:5px}
+
+.d-shadows{display:flex;gap:12px;align-items:center;justify-content:center;background:#0c0d1f;width:100%;padding:8px;border-radius:6px}
+.d-shad-box{background:var(--card);border-radius:7px;padding:8px 13px;font-size:9px;font-weight:600;text-align:center}
+
+.d-radius{display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap}
+.d-r{background:rgba(78,168,255,.15);border:1px solid var(--v5);padding:5px 11px;font-size:9px;font-weight:700}
+
+.d-typo{display:flex;flex-direction:column;align-items:flex-start;gap:3px;width:100%}
+
+.d-zindex{position:relative;height:72px;width:100%}
+.dz{position:absolute;width:78px;height:50px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700}
+
+/* ─── EMPTY + FOOTER ─── */
+.empty{display:none;text-align:center;padding:56px 20px;color:var(--muted)}
+.empty-ico{font-size:44px;margin-bottom:10px}
+
+footer{text-align:center;padding:22px;color:var(--muted);font-size:12px;border-top:1px solid var(--border);position:relative;z-index:1}
+
+@media(max-width:600px){
+  .hero{padding:36px 14px 28px}
+  .stats{gap:20px}
+  main{padding:18px 12px 48px}
+  .grid,.grid2{grid-template-columns:1fr}
+  .combo-grid{grid-template-columns:1fr}
+  .main-tab{padding:10px 18px;font-size:13px}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-tag">⚡ Google Apps Script Web App</div>
+  <h1>GAS Dev <em>Hub</em></h1>
+  <p>Rujukan lengkap untuk semak kod dan reka bentuk — kepakaran untuk Claude dan glosari terma UI/UX dalam satu tempat.</p>
+  <div class="stats">
+    <div class="stat"><div class="stat-n">28</div><div class="stat-l">Kepakaran</div></div>
+    <div class="stat"><div class="stat-n">37</div><div class="stat-l">Terma UI/UX</div></div>
+    <div class="stat"><div class="stat-n">7+7</div><div class="stat-l">Kategori</div></div>
+  </div>
+  <div class="main-nav">
+    <button class="main-tab active" onclick="showPage('kepakaran',this)">
+      <span class="tab-icon">⚡</span> Kepakaran Semak
+    </button>
+    <button class="main-tab" onclick="showPage('glosari',this)">
+      <span class="tab-icon">📚</span> Glosari UI/UX
+    </button>
+  </div>
+</header>
+
+<!-- ════════════════════════════════════════════ -->
+<!--  PAGE 1 — KEPAKARAN                         -->
+<!-- ════════════════════════════════════════════ -->
+<div class="page active" id="page-kepakaran">
+<div class="controls" id="ctrl-k">
+  <div class="search-row">
+    <div class="search-wrap">
+      <span class="s-icon">🔍</span>
+      <input class="search-input" id="srch-k" type="text" placeholder="Cari kepakaran...">
+    </div>
+  </div>
+  <div class="filter-tabs" id="ftabs-k">
+    <button class="ftab active" onclick="filterK('all',this)">✦ Semua</button>
+    <button class="ftab" onclick="filterK('ux',this)">🎨 UX</button>
+    <button class="ftab" onclick="filterK('frontend',this)">💻 Frontend</button>
+    <button class="ftab" onclick="filterK('backend',this)">⚙️ Backend</button>
+    <button class="ftab" onclick="filterK('integration',this)">🔗 Integration</button>
+    <button class="ftab" onclick="filterK('data',this)">🗄️ Data</button>
+    <button class="ftab" onclick="filterK('quality',this)">🧪 Kualiti</button>
+    <button class="ftab" onclick="filterK('security',this)">🔒 Security</button>
+  </div>
+</div>
+
+<main>
+
+<!-- COMBO -->
+<div class="combo-wrap" id="combo-wrap">
+  <div class="combo-title">⚡ Gabungan Popular</div>
+  <div class="combo-sub">Klik untuk salin arahan gabungan — tampal terus dalam chat Claude.</div>
+  <div class="combo-grid">
+    <div class="ccard" onclick="copyCombo(this)"><div class="ccard-sc">🚀 Sebelum Deploy</div><div class="ccard-p">Semak sebagai Pakar Security Frontend + Security Backend + Error Handling. Saya nak pastikan web app ini selamat sebelum dilancarkan.</div><div class="ccard-copy">📋 Klik untuk salin</div></div>
+    <div class="ccard" onclick="copyCombo(this)"><div class="ccard-sc">🐢 App Lembab</div><div class="ccard-p">Semak sebagai Pakar GAS Performance + Frontend Performance + Google Sheets API. Web app saya terasa lambat dan ingin dioptimumkan.</div><div class="ccard-copy">📋 Klik untuk salin</div></div>
+    <div class="ccard" onclick="copyCombo(this)"><div class="ccard-sc">😕 UX Tidak Mesra</div><div class="ccard-p">Semak sebagai Pakar UX + UI Design + Mobile Responsiveness. Pengguna aduan interface susah digunakan.</div><div class="ccard-copy">📋 Klik untuk salin</div></div>
+    <div class="ccard" onclick="copyCombo(this)"><div class="ccard-sc">🔄 Semak Menyeluruh</div><div class="ccard-p">Semak sebagai Pakar Code Review + GAS Architecture + API Design + Documentation. Berikan laporan lengkap keseluruhan projek.</div><div class="ccard-copy">📋 Klik untuk salin</div></div>
+    <div class="ccard" onclick="copyCombo(this)"><div class="ccard-sc">📱 Untuk Mobile</div><div class="ccard-p">Semak sebagai Pakar Mobile Responsiveness + Accessibility + UI Design. App saya banyak diakses melalui telefon.</div><div class="ccard-copy">📋 Klik untuk salin</div></div>
+    <div class="ccard" onclick="copyCombo(this)"><div class="ccard-sc">🗄️ Masalah Data</div><div class="ccard-p">Semak sebagai Pakar Data Modelling + Google Sheets API + GAS Performance. Sheets saya jadi lambat bila data banyak.</div><div class="ccard-copy">📋 Klik untuk salin</div></div>
+  </div>
+</div>
+
+<!-- SEC: UX -->
+<div class="section" data-kcat="ux">
+  <div class="sec-hdr">
+    <div class="sec-ico" style="background:rgba(139,127,247,.15)">🎨</div>
+    <div><div class="sec-title" style="color:var(--v1)">Design & UX</div><div class="sec-sub">Reka bentuk pengalaman dan antaramuka pengguna</div></div>
+    <div class="sec-cnt">4 kepakaran</div>
+  </div>
+  <div class="grid">
+    <div class="ecard" data-kcat="ux" data-kn="pakar ux pengalaman pengguna flow navigasi" style="border-color:rgba(139,127,247,.25)">
+      <div class="ec-hdr"><div class="ec-num" style="background:rgba(139,127,247,.15);color:var(--v1)">01</div><div><div class="ec-name">Pakar UX</div><div class="ec-en">User Experience</div></div></div>
+      <div class="ec-div"></div>
+      <div class="ec-body">
+        <div class="ec-desc">Semak keseluruhan perjalanan pengguna — logik aliran, kejelasan arahan, dan sama ada pengguna boleh capai matlamat tanpa keliru.</div>
+        <div class="checks">
+          <div class="chk"><div class="chk-dot" style="background:var(--v1)"></div>Flow pengguna & navigasi intuitif</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v1)"></div>Kejelasan arahan & label</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v1)"></div>Langkah tidak perlu / berulang</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v1)"></div>Maklum balas kepada tindakan pengguna</div>
+        </div>
+        <div class="cmd-wrap"><div class="cmd-top"><span>💬 Arahan Claude</span><button class="copy-btn" onclick="copyCmd(this)">Salin</button></div><div class="cmd-txt">Semak sebagai Pakar UX. Analisis flow pengguna, kejelasan navigasi, dan cadangkan penambahbaikan pengalaman pengguna.</div></div>
+      </div>
+    </div>
+    <div class="ecard" data-kcat="ux" data-kn="pakar ui design visual hierarchy warna spacing" style="border-color:rgba(139,127,247,.25)">
+      <div class="ec-hdr"><div class="ec-num" style="background:rgba(139,127,247,.15);color:var(--v1)">02</div><div><div class="ec-name">Pakar UI Design</div><div class="ec-en">User Interface Design</div></div></div>
+      <div class="ec-div"></div>
+      <div class="ec-body">
+        <div class="ec-desc">Semak aspek visual — susun atur, hierarki teks, warna, jarak, dan konsistensi keseluruhan reka bentuk supaya nampak profesional.</div>
+        <div class="checks">
+          <div class="chk"><div class="chk-dot" style="background:var(--v1)"></div>Visual hierarchy & keterbacaan</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v1)"></div>Konsistensi warna & tipografi</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v1)"></div>Spacing & alignment elemen</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v1)"></div>Nampak profesional & bersih</div>
+        </div>
+        <div class="cmd-wrap"><div class="cmd-top"><span>💬 Arahan Claude</span><button class="copy-btn" onclick="copyCmd(this)">Salin</button></div><div class="cmd-txt">Semak sebagai Pakar UI Design. Nilai visual hierarchy, konsistensi reka bentuk, spacing dan tipografi.</div></div>
+      </div>
+    </div>
+    <div class="ecard" data-kcat="ux" data-kn="pakar accessibility wcag skrin pembaca capaian" style="border-color:rgba(139,127,247,.25)">
+      <div class="ec-hdr"><div class="ec-num" style="background:rgba(139,127,247,.15);color:var(--v1)">03</div><div><div class="ec-name">Pakar Accessibility</div><div class="ec-en">Kebolehcapaian</div></div></div>
+      <div class="ec-div"></div>
+      <div class="ec-body">
+        <div class="ec-desc">Semak sama ada app boleh digunakan semua orang — nisbah kontras warna, label ARIA, navigasi keyboard, sokongan screen reader.</div>
+        <div class="checks">
+          <div class="chk"><div class="chk-dot" style="background:var(--v1)"></div>Nisbah kontras warna WCAG AA</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v1)"></div>Label ARIA & alt text</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v1)"></div>Navigasi keyboard (Tab order)</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v1)"></div>Focus indicator kelihatan</div>
+        </div>
+        <div class="cmd-wrap"><div class="cmd-top"><span>💬 Arahan Claude</span><button class="copy-btn" onclick="copyCmd(this)">Salin</button></div><div class="cmd-txt">Semak sebagai Pakar Accessibility. Nilai pematuhan WCAG, kontras warna, label ARIA dan navigasi keyboard.</div></div>
+      </div>
+    </div>
+    <div class="ecard" data-kcat="ux" data-kn="pakar mobile responsiveness telefon tablet skrin" style="border-color:rgba(139,127,247,.25)">
+      <div class="ec-hdr"><div class="ec-num" style="background:rgba(139,127,247,.15);color:var(--v1)">04</div><div><div class="ec-name">Pakar Mobile Responsiveness</div><div class="ec-en">Responsif Pelbagai Skrin</div></div></div>
+      <div class="ec-div"></div>
+      <div class="ec-body">
+        <div class="ec-desc">Semak sama ada app berfungsi baik pada semua saiz skrin. Nilai breakpoint, saiz sentuhan, dan layout anjal untuk telefon & tablet.</div>
+        <div class="checks">
+          <div class="chk"><div class="chk-dot" style="background:var(--v1)"></div>Layout pada telefon & tablet</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v1)"></div>Saiz elemen boleh disentuh ≥44px</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v1)"></div>Teks tidak terpotong skrin kecil</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v1)"></div>Gambar & media responsif</div>
+        </div>
+        <div class="cmd-wrap"><div class="cmd-top"><span>💬 Arahan Claude</span><button class="copy-btn" onclick="copyCmd(this)">Salin</button></div><div class="cmd-txt">Semak sebagai Pakar Mobile Responsiveness. Nilai layout pelbagai saiz skrin, breakpoint CSS dan elemen sentuhan.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SEC: FRONTEND -->
+<div class="section" data-kcat="frontend">
+  <div class="sec-hdr">
+    <div class="sec-ico" style="background:rgba(6,221,176,.15)">💻</div>
+    <div><div class="sec-title" style="color:var(--v2)">Frontend</div><div class="sec-sub">HTML, CSS, JavaScript dalam Google Apps Script</div></div>
+    <div class="sec-cnt">4 kepakaran</div>
+  </div>
+  <div class="grid">
+    <div class="ecard" data-kcat="frontend" data-kn="pakar frontend performance load rendering dom" style="border-color:rgba(6,221,176,.2)">
+      <div class="ec-hdr"><div class="ec-num" style="background:rgba(6,221,176,.1);color:var(--v2)">05</div><div><div class="ec-name">Pakar Frontend Performance</div><div class="ec-en">Prestasi Halaman</div></div></div>
+      <div class="ec-div"></div>
+      <div class="ec-body">
+        <div class="ec-desc">Semak kelajuan muatan halaman, saiz DOM, skrip yang menyekat rendering, dan cara aset dimuat. Pastikan pengguna tidak menunggu lama.</div>
+        <div class="checks">
+          <div class="chk"><div class="chk-dot" style="background:var(--v2)"></div>Saiz DOM & elemen berlebihan</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v2)"></div>Skrip render-blocking</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v2)"></div>Lazy loading imej & aset</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v2)"></div>CSS/JS tidak dipakai</div>
+        </div>
+        <div class="cmd-wrap"><div class="cmd-top"><span>💬 Arahan Claude</span><button class="copy-btn" onclick="copyCmd(this)">Salin</button></div><div class="cmd-txt">Semak sebagai Pakar Frontend Performance. Cari isu load time, render-blocking dan cadangkan pengoptimuman.</div></div>
+      </div>
+    </div>
+    <div class="ecard" data-kcat="frontend" data-kn="pakar javascript async event logic bug" style="border-color:rgba(6,221,176,.2)">
+      <div class="ec-hdr"><div class="ec-num" style="background:rgba(6,221,176,.1);color:var(--v2)">06</div><div><div class="ec-name">Pakar JavaScript</div><div class="ec-en">Kualiti Kod JS</div></div></div>
+      <div class="ec-div"></div>
+      <div class="ec-body">
+        <div class="ec-desc">Semak logik JavaScript — pengendalian event, async/await, scope pemboleh ubah, dan pengendalian ralat. Pastikan bebas bug tersembunyi.</div>
+        <div class="checks">
+          <div class="chk"><div class="chk-dot" style="background:var(--v2)"></div>Pengendalian async/await & Promise</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v2)"></div>Event listener & memory leak</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v2)"></div>Scope & closure yang betul</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v2)"></div>Pengendalian ralat client-side</div>
+        </div>
+        <div class="cmd-wrap"><div class="cmd-top"><span>💬 Arahan Claude</span><button class="copy-btn" onclick="copyCmd(this)">Salin</button></div><div class="cmd-txt">Semak sebagai Pakar JavaScript. Nilai kualiti kod JS, pengendalian async, event dan potensi bug.</div></div>
+      </div>
+    </div>
+    <div class="ecard" data-kcat="frontend security" data-kn="pakar security frontend xss sanitize input" style="border-color:rgba(6,221,176,.2)">
+      <div class="ec-hdr"><div class="ec-num" style="background:rgba(6,221,176,.1);color:var(--v2)">07</div><div><div class="ec-name">Pakar Security Frontend</div><div class="ec-en">Keselamatan Bahagian Hadapan</div></div></div>
+      <div class="ec-div"></div>
+      <div class="ec-body">
+        <div class="ec-desc">Semak kelemahan keselamatan HTML/JS — XSS, sanitasi input, dan polisi keselamatan untuk GAS web app.</div>
+        <div class="checks">
+          <div class="chk"><div class="chk-dot" style="background:var(--v2)"></div>XSS (Cross-Site Scripting)</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v2)"></div>Sanitasi input sebelum paparan</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v2)"></div>innerHTML vs textContent</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v2)"></div>Data sensitif dalam client-side</div>
+        </div>
+        <div class="cmd-wrap"><div class="cmd-top"><span>💬 Arahan Claude</span><button class="copy-btn" onclick="copyCmd(this)">Salin</button></div><div class="cmd-txt">Semak sebagai Pakar Security Frontend. Cari kelemahan XSS, sanitasi input dan pendedahan data sensitif.</div></div>
+      </div>
+    </div>
+    <div class="ecard" data-kcat="frontend" data-kn="pakar struktur css html moduler naming convention" style="border-color:rgba(6,221,176,.2)">
+      <div class="ec-hdr"><div class="ec-num" style="background:rgba(6,221,176,.1);color:var(--v2)">08</div><div><div class="ec-name">Pakar Struktur Kod Frontend</div><div class="ec-en">HTML/CSS Structure</div></div></div>
+      <div class="ec-div"></div>
+      <div class="ec-body">
+        <div class="ec-desc">Semak susun atur HTML dan CSS — modular, konsisten, mudah diselenggara. Nilai penamaan class, hierarki semantik, dan elak kod berulang.</div>
+        <div class="checks">
+          <div class="chk"><div class="chk-dot" style="background:var(--v2)"></div>HTML semantik & hierarki betul</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v2)"></div>Penamaan class CSS konsisten</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v2)"></div>CSS berulang (DRY principle)</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v2)"></div>Pemisahan kandungan & gaya</div>
+        </div>
+        <div class="cmd-wrap"><div class="cmd-top"><span>💬 Arahan Claude</span><button class="copy-btn" onclick="copyCmd(this)">Salin</button></div><div class="cmd-txt">Semak sebagai Pakar Struktur Kod Frontend. Nilai kualiti HTML semantik, CSS dan modulariti kod.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SEC: BACKEND -->
+<div class="section" data-kcat="backend">
+  <div class="sec-hdr">
+    <div class="sec-ico" style="background:rgba(255,95,109,.15)">⚙️</div>
+    <div><div class="sec-title" style="color:var(--v3)">Backend GAS</div><div class="sec-sub">doGet, doPost, Sheets, CacheService, Trigger</div></div>
+    <div class="sec-cnt">5 kepakaran</div>
+  </div>
+  <div class="grid">
+    <div class="ecard" data-kcat="backend" data-kn="gas architecture doget dopost deployment struktur" style="border-color:rgba(255,95,109,.2)">
+      <div class="ec-hdr"><div class="ec-num" style="background:rgba(255,95,109,.12);color:var(--v3)">09</div><div><div class="ec-name">Pakar GAS Architecture</div><div class="ec-en">Seni Bina Apps Script</div></div></div>
+      <div class="ec-div"></div>
+      <div class="ec-body">
+        <div class="ec-desc">Semak cara projek GAS disusun — fungsi doGet/doPost, pembahagian fail, aliran data, dan konfigurasi deployment.</div>
+        <div class="checks">
+          <div class="chk"><div class="chk-dot" style="background:var(--v3)"></div>Struktur doGet / doPost</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v3)"></div>Pengasingan tanggungjawab fungsi</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v3)"></div>Konfigurasi deployment Web App</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v3)"></div>Pengurusan pemboleh ubah global</div>
+        </div>
+        <div class="cmd-wrap"><div class="cmd-top"><span>💬 Arahan Claude</span><button class="copy-btn" onclick="copyCmd(this)">Salin</button></div><div class="cmd-txt">Semak sebagai Pakar GAS Architecture. Nilai struktur kod, doGet/doPost, pembahagian fungsi dan konfigurasi deployment.</div></div>
+      </div>
+    </div>
+    <div class="ecard" data-kcat="backend data" data-kn="google sheets api query quota race condition" style="border-color:rgba(255,95,109,.2)">
+      <div class="ec-hdr"><div class="ec-num" style="background:rgba(255,95,109,.12);color:var(--v3)">10</div><div><div class="ec-name">Pakar Google Sheets API</div><div class="ec-en">Integrasi Spreadsheet</div></div></div>
+      <div class="ec-div"></div>
+      <div class="ec-body">
+        <div class="ec-desc">Semak cara app berinteraksi dengan Sheets — panggilan berlebihan, had kuota, race condition tulis serentak.</div>
+        <div class="checks">
+          <div class="chk"><div class="chk-dot" style="background:var(--v3)"></div>Panggilan API berlebihan</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v3)"></div>Had kuota & throttling</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v3)"></div>Race condition tulis serentak</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v3)"></div>getValues vs getRange tepat</div>
+        </div>
+        <div class="cmd-wrap"><div class="cmd-top"><span>💬 Arahan Claude</span><button class="copy-btn" onclick="copyCmd(this)">Salin</button></div><div class="cmd-txt">Semak sebagai Pakar Google Sheets API. Nilai kecekapan panggilan, had kuota, race condition dan cara pengambilan data.</div></div>
+      </div>
+    </div>
+    <div class="ecard" data-kcat="backend" data-kn="gas performance execution cache batch 6 minit" style="border-color:rgba(255,95,109,.2)">
+      <div class="ec-hdr"><div class="ec-num" style="background:rgba(255,95,109,.12);color:var(--v3)">11</div><div><div class="ec-name">Pakar GAS Performance</div><div class="ec-en">Prestasi Apps Script</div></div></div>
+      <div class="ec-div"></div>
+      <div class="ec-body">
+        <div class="ec-desc">Semak kelajuan pelaksanaan — CacheService, operasi batch, gelung berulang, dan had masa larian 6 minit GAS.</div>
+        <div class="checks">
+          <div class="chk"><div class="chk-dot" style="background:var(--v3)"></div>Penggunaan CacheService</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v3)"></div>Batch operations vs loop</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v3)"></div>Had masa 6 minit GAS</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v3)"></div>Panggilan UrlFetch berlebihan</div>
+        </div>
+        <div class="cmd-wrap"><div class="cmd-top"><span>💬 Arahan Claude</span><button class="copy-btn" onclick="copyCmd(this)">Salin</button></div><div class="cmd-txt">Semak sebagai Pakar GAS Performance. Nilai masa pelaksanaan, CacheService, operasi batch dan had quota GAS.</div></div>
+      </div>
+    </div>
+    <div class="ecard" data-kcat="backend security" data-kn="security backend session auth scope validation" style="border-color:rgba(255,95,109,.2)">
+      <div class="ec-hdr"><div class="ec-num" style="background:rgba(255,95,109,.12);color:var(--v3)">12</div><div><div class="ec-name">Pakar Security Backend</div><div class="ec-en">Keselamatan Server-Side</div></div></div>
+      <div class="ec-div"></div>
+      <div class="ec-body">
+        <div class="ec-desc">Semak keselamatan GAS — pengesahan pengguna, kawalan akses, validasi input server-side, dan skop OAuth minimum.</div>
+        <div class="checks">
+          <div class="chk"><div class="chk-dot" style="background:var(--v3)"></div>Pengesahan pengguna & sesi</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v3)"></div>Validasi input server-side</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v3)"></div>Skop OAuth minimum</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v3)"></div>Data sensitif tidak terdedah dalam log</div>
+        </div>
+        <div class="cmd-wrap"><div class="cmd-top"><span>💬 Arahan Claude</span><button class="copy-btn" onclick="copyCmd(this)">Salin</button></div><div class="cmd-txt">Semak sebagai Pakar Security Backend. Nilai pengesahan pengguna, kawalan akses, validasi input dan skop OAuth.</div></div>
+      </div>
+    </div>
+    <div class="ecard" data-kcat="backend quality" data-kn="error handling try catch log mesej ralat" style="border-color:rgba(255,95,109,.2)">
+      <div class="ec-hdr"><div class="ec-num" style="background:rgba(255,95,109,.12);color:var(--v3)">13</div><div><div class="ec-name">Pakar Error Handling</div><div class="ec-en">Pengendalian Ralat</div></div></div>
+      <div class="ec-div"></div>
+      <div class="ec-body">
+        <div class="ec-desc">Semak cara ralat diurus — try/catch yang mencukupi, logging berguna, dan mesej ralat mesra pengguna bukan teknikal.</div>
+        <div class="checks">
+          <div class="chk"><div class="chk-dot" style="background:var(--v3)"></div>Try/catch pada operasi kritikal</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v3)"></div>Log ralat yang informatif</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v3)"></div>Mesej ralat mesra pengguna</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v3)"></div>Ralat tidak tergantung (graceful)</div>
+        </div>
+        <div class="cmd-wrap"><div class="cmd-top"><span>💬 Arahan Claude</span><button class="copy-btn" onclick="copyCmd(this)">Salin</button></div><div class="cmd-txt">Semak sebagai Pakar Error Handling. Nilai try/catch, logging ralat dan mesej yang dipaparkan kepada pengguna.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SEC: INTEGRATION -->
+<div class="section" data-kcat="integration">
+  <div class="sec-hdr">
+    <div class="sec-ico" style="background:rgba(255,202,69,.15)">🔗</div>
+    <div><div class="sec-title" style="color:var(--v4)">Integration & API</div><div class="sec-sub">Komunikasi frontend, backend dan ekosistem Google</div></div>
+    <div class="sec-cnt">4 kepakaran</div>
+  </div>
+  <div class="grid">
+    <div class="ecard" data-kcat="integration" data-kn="api design request response komunikasi format" style="border-color:rgba(255,202,69,.2)">
+      <div class="ec-hdr"><div class="ec-num" style="background:rgba(255,202,69,.1);color:var(--v4)">14</div><div><div class="ec-name">Pakar API Design</div><div class="ec-en">Reka Bentuk Antaramuka API</div></div></div>
+      <div class="ec-div"></div>
+      <div class="ec-body">
+        <div class="ec-desc">Semak struktur komunikasi antara frontend dan GAS — format data, parameter doGet/doPost, konsistensi respons JSON.</div>
+        <div class="checks">
+          <div class="chk"><div class="chk-dot" style="background:var(--v4)"></div>Format request & response konsisten</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v4)"></div>Pengendalian parameter betul</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v4)"></div>Kod status & mesej respons jelas</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v4)"></div>Data minimum dihantar</div>
+        </div>
+        <div class="cmd-wrap"><div class="cmd-top"><span>💬 Arahan Claude</span><button class="copy-btn" onclick="copyCmd(this)">Salin</button></div><div class="cmd-txt">Semak sebagai Pakar API Design. Nilai struktur komunikasi frontend-GAS, format data dan konsistensi respons.</div></div>
+      </div>
+    </div>
+    <div class="ecard" data-kcat="integration data" data-kn="drive docs forms google ecosystem integrasi" style="border-color:rgba(255,202,69,.2)">
+      <div class="ec-hdr"><div class="ec-num" style="background:rgba(255,202,69,.1);color:var(--v4)">15</div><div><div class="ec-name">Pakar Drive/Docs Integration</div><div class="ec-en">Ekosistem Google</div></div></div>
+      <div class="ec-div"></div>
+      <div class="ec-body">
+        <div class="ec-desc">Semak integrasi Google Drive, Docs, Forms, Gmail — cekap, selamat dan tidak meminta kebenaran berlebihan.</div>
+        <div class="checks">
+          <div class="chk"><div class="chk-dot" style="background:var(--v4)"></div>Integrasi Drive, Docs, Forms, Gmail</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v4)"></div>Kebenaran (permission) minimum</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v4)"></div>Trigger & automatik betul</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v4)"></div>Pengurusan fail Drive betul</div>
+        </div>
+        <div class="cmd-wrap"><div class="cmd-top"><span>💬 Arahan Claude</span><button class="copy-btn" onclick="copyCmd(this)">Salin</button></div><div class="cmd-txt">Semak sebagai Pakar Drive/Docs Integration. Nilai integrasi ekosistem Google dan pengurusan kebenaran.</div></div>
+      </div>
+    </div>
+    <div class="ecard" data-kcat="integration backend" data-kn="trigger jadual automatik time driven onedit" style="border-color:rgba(255,202,69,.2)">
+      <div class="ec-hdr"><div class="ec-num" style="background:rgba(255,202,69,.1);color:var(--v4)">16</div><div><div class="ec-name">Pakar GAS Trigger</div><div class="ec-en">Pencetus Automatik</div></div></div>
+      <div class="ec-div"></div>
+      <div class="ec-body">
+        <div class="ec-desc">Semak trigger — time-driven, onEdit, onFormSubmit. Nilai konfigurasi, pertindihan, dan had kuota trigger.</div>
+        <div class="checks">
+          <div class="chk"><div class="chk-dot" style="background:var(--v4)"></div>Jenis trigger yang sesuai</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v4)"></div>Trigger bertindih / berganda</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v4)"></div>Had kuota trigger (20/hari)</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v4)"></div>Pengendalian ralat dalam trigger</div>
+        </div>
+        <div class="cmd-wrap"><div class="cmd-top"><span>💬 Arahan Claude</span><button class="copy-btn" onclick="copyCmd(this)">Salin</button></div><div class="cmd-txt">Semak sebagai Pakar GAS Trigger. Nilai konfigurasi trigger, had kuota dan pengendalian ralat automatik.</div></div>
+      </div>
+    </div>
+    <div class="ecard" data-kcat="integration" data-kn="email notifikasi gmail penghantaran had kuota" style="border-color:rgba(255,202,69,.2)">
+      <div class="ec-hdr"><div class="ec-num" style="background:rgba(255,202,69,.1);color:var(--v4)">17</div><div><div class="ec-name">Pakar Email & Notifikasi</div><div class="ec-en">GmailApp / MailApp</div></div></div>
+      <div class="ec-div"></div>
+      <div class="ec-body">
+        <div class="ec-desc">Semak penghantaran emel — had 100/hari, format HTML, pengurusan penerima, emel berganda tidak sengaja.</div>
+        <div class="checks">
+          <div class="chk"><div class="chk-dot" style="background:var(--v4)"></div>Had 100 emel/hari GmailApp</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v4)"></div>Pengurusan senarai penerima</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v4)"></div>Emel berganda tidak sengaja</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v4)"></div>Format & kandungan profesional</div>
+        </div>
+        <div class="cmd-wrap"><div class="cmd-top"><span>💬 Arahan Claude</span><button class="copy-btn" onclick="copyCmd(this)">Salin</button></div><div class="cmd-txt">Semak sebagai Pakar Email & Notifikasi. Nilai GmailApp, had kuota dan pengurusan penghantaran emel.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SEC: DATA -->
+<div class="section" data-kcat="data">
+  <div class="sec-hdr">
+    <div class="sec-ico" style="background:rgba(78,168,255,.15)">🗄️</div>
+    <div><div class="sec-title" style="color:var(--v5)">Data & Struktur</div><div class="sec-sub">Sheets sebagai pangkalan data, integriti & konfigurasi</div></div>
+    <div class="sec-cnt">3 kepakaran</div>
+  </div>
+  <div class="grid">
+    <div class="ecard" data-kcat="data" data-kn="data modelling sheets database struktur lajur skala" style="border-color:rgba(78,168,255,.2)">
+      <div class="ec-hdr"><div class="ec-num" style="background:rgba(78,168,255,.1);color:var(--v5)">18</div><div><div class="ec-name">Pakar Data Modelling</div><div class="ec-en">Pemodelan Data</div></div></div>
+      <div class="ec-div"></div>
+      <div class="ec-body">
+        <div class="ec-desc">Semak Sheets sebagai pangkalan data — susun atur lajur, rujukan antara sheet, normalisasi, dan skalabiliti bila data bertambah.</div>
+        <div class="checks">
+          <div class="chk"><div class="chk-dot" style="background:var(--v5)"></div>Struktur lajur & header jelas</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v5)"></div>Rujukan antara sheet (relasi)</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v5)"></div>Data tidak diduplikasi</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v5)"></div>Berskala bila beribu rekod</div>
+        </div>
+        <div class="cmd-wrap"><div class="cmd-top"><span>💬 Arahan Claude</span><button class="copy-btn" onclick="copyCmd(this)">Salin</button></div><div class="cmd-txt">Semak sebagai Pakar Data Modelling. Nilai struktur Sheets, relasi antara sheet dan skalabiliti.</div></div>
+      </div>
+    </div>
+    <div class="ecard" data-kcat="data" data-kn="integriti data validasi format null konsisten" style="border-color:rgba(78,168,255,.2)">
+      <div class="ec-hdr"><div class="ec-num" style="background:rgba(78,168,255,.1);color:var(--v5)">19</div><div><div class="ec-name">Pakar Integriti Data</div><div class="ec-en">Data Integrity & Validation</div></div></div>
+      <div class="ec-div"></div>
+      <div class="ec-body">
+        <div class="ec-desc">Semak sama ada data yang masuk sentiasa divalidasi, diformat betul, dan tidak menyebabkan ralat dalam pemprosesan.</div>
+        <div class="checks">
+          <div class="chk"><div class="chk-dot" style="background:var(--v5)"></div>Validasi format sebelum simpan</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v5)"></div>Pengendalian nilai kosong/null</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v5)"></div>Penyeragaman format tarikh & nombor</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v5)"></div>Tiada duplikasi tidak sengaja</div>
+        </div>
+        <div class="cmd-wrap"><div class="cmd-top"><span>💬 Arahan Claude</span><button class="copy-btn" onclick="copyCmd(this)">Salin</button></div><div class="cmd-txt">Semak sebagai Pakar Integriti Data. Nilai validasi input, pengendalian null dan konsistensi format data.</div></div>
+      </div>
+    </div>
+    <div class="ecard" data-kcat="data backend" data-kn="properties service konfigurasi api key store" style="border-color:rgba(78,168,255,.2)">
+      <div class="ec-hdr"><div class="ec-num" style="background:rgba(78,168,255,.1);color:var(--v5)">20</div><div><div class="ec-name">Pakar PropertiesService</div><div class="ec-en">Storan Konfigurasi GAS</div></div></div>
+      <div class="ec-div"></div>
+      <div class="ec-body">
+        <div class="ec-desc">Semak penggunaan PropertiesService untuk simpan konfigurasi dan token — berbanding hardcode nilai dalam skrip.</div>
+        <div class="checks">
+          <div class="chk"><div class="chk-dot" style="background:var(--v5)"></div>Kunci API tidak hardcode</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v5)"></div>Guna Script/User/Document Properties</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v5)"></div>Nilai konfigurasi mudah diubah</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v5)"></div>Had saiz nilai 9KB/property</div>
+        </div>
+        <div class="cmd-wrap"><div class="cmd-top"><span>💬 Arahan Claude</span><button class="copy-btn" onclick="copyCmd(this)">Salin</button></div><div class="cmd-txt">Semak sebagai Pakar PropertiesService. Nilai cara konfigurasi dan kunci API disimpan selamat dalam GAS.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SEC: QUALITY -->
+<div class="section" data-kcat="quality">
+  <div class="sec-hdr">
+    <div class="sec-ico" style="background:rgba(6,221,176,.15)">🧪</div>
+    <div><div class="sec-title" style="color:var(--v2)">Kualiti & Penyelenggaraan</div><div class="sec-sub">Code review, testing, dokumentasi, refactoring</div></div>
+    <div class="sec-cnt">4 kepakaran</div>
+  </div>
+  <div class="grid">
+    <div class="ecard" data-kcat="quality" data-kn="code review dry naming convention kejelasan" style="border-color:rgba(6,221,176,.2)">
+      <div class="ec-hdr"><div class="ec-num" style="background:rgba(6,221,176,.1);color:var(--v2)">21</div><div><div class="ec-name">Pakar Code Review</div><div class="ec-en">Semakan Kod Menyeluruh</div></div></div>
+      <div class="ec-div"></div>
+      <div class="ec-body">
+        <div class="ec-desc">Semak kualiti kod — DRY, penamaan jelas, fungsi terlalu panjang, dan kejelasan logik keseluruhan.</div>
+        <div class="checks">
+          <div class="chk"><div class="chk-dot" style="background:var(--v2)"></div>Prinsip DRY — elak kod berulang</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v2)"></div>Penamaan pemboleh ubah & fungsi jelas</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v2)"></div>Fungsi terlalu panjang (>50 baris)</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v2)"></div>Logik kompleks yang perlu dipermudah</div>
+        </div>
+        <div class="cmd-wrap"><div class="cmd-top"><span>💬 Arahan Claude</span><button class="copy-btn" onclick="copyCmd(this)">Salin</button></div><div class="cmd-txt">Semak sebagai Pakar Code Review. Nilai kualiti kod, prinsip DRY, penamaan dan kejelasan logik.</div></div>
+      </div>
+    </div>
+    <div class="ecard" data-kcat="quality" data-kn="testing edge case ujian senario input null" style="border-color:rgba(6,221,176,.2)">
+      <div class="ec-hdr"><div class="ec-num" style="background:rgba(6,221,176,.1);color:var(--v2)">22</div><div><div class="ec-name">Pakar Testing</div><div class="ec-en">Ujian & Edge Cases</div></div></div>
+      <div class="ec-div"></div>
+      <div class="ec-body">
+        <div class="ec-desc">Semak kes tepi — input kosong, format salah, pengguna tanpa akses, dan data yang rosak atau tidak lengkap.</div>
+        <div class="checks">
+          <div class="chk"><div class="chk-dot" style="background:var(--v2)"></div>Input kosong, null, undefined</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v2)"></div>Input format salah</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v2)"></div>Pengguna tanpa kebenaran</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v2)"></div>Data Sheets tiada / dipadamkan</div>
+        </div>
+        <div class="cmd-wrap"><div class="cmd-top"><span>💬 Arahan Claude</span><button class="copy-btn" onclick="copyCmd(this)">Salin</button></div><div class="cmd-txt">Semak sebagai Pakar Testing. Cari edge cases tidak dikendalikan dan cadangkan ujian senario kritikal.</div></div>
+      </div>
+    </div>
+    <div class="ecard" data-kcat="quality" data-kn="documentation komen readme panduan kod fungsi" style="border-color:rgba(6,221,176,.2)">
+      <div class="ec-hdr"><div class="ec-num" style="background:rgba(6,221,176,.1);color:var(--v2)">23</div><div><div class="ec-name">Pakar Documentation</div><div class="ec-en">Dokumentasi Kod</div></div></div>
+      <div class="ec-div"></div>
+      <div class="ec-body">
+        <div class="ec-desc">Semak kualiti dokumentasi — komen bermakna, README berguna, dan sama ada orang lain boleh faham projek ini.</div>
+        <div class="checks">
+          <div class="chk"><div class="chk-dot" style="background:var(--v2)"></div>Komen kod bermakna</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v2)"></div>Fungsi ada deskripsi parameter</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v2)"></div>README atau panduan pengguna</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v2)"></div>Struktur folder & fail jelas</div>
+        </div>
+        <div class="cmd-wrap"><div class="cmd-top"><span>💬 Arahan Claude</span><button class="copy-btn" onclick="copyCmd(this)">Salin</button></div><div class="cmd-txt">Semak sebagai Pakar Documentation. Nilai kualiti komen, README dan kefahaman orang lain terhadap projek.</div></div>
+      </div>
+    </div>
+    <div class="ecard" data-kcat="quality" data-kn="refactoring bersih tulis semula modular perbaiki" style="border-color:rgba(6,221,176,.2)">
+      <div class="ec-hdr"><div class="ec-num" style="background:rgba(6,221,176,.1);color:var(--v2)">24</div><div><div class="ec-name">Pakar Refactoring</div><div class="ec-en">Penyusunan Semula Kod</div></div></div>
+      <div class="ec-div"></div>
+      <div class="ec-body">
+        <div class="ec-desc">Tulis semula bahagian kod yang berfungsi tapi sukar dibaca — lebih bersih, ringkas dan modular tanpa ubah fungsi.</div>
+        <div class="checks">
+          <div class="chk"><div class="chk-dot" style="background:var(--v2)"></div>Pecah fungsi besar kepada kecil</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v2)"></div>Gabungkan kod berulang</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v2)"></div>Ringkaskan logik bersarang</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v2)"></div>Namakan semula yang mengelirukan</div>
+        </div>
+        <div class="cmd-wrap"><div class="cmd-top"><span>💬 Arahan Claude</span><button class="copy-btn" onclick="copyCmd(this)">Salin</button></div><div class="cmd-txt">Semak sebagai Pakar Refactoring. Cadangkan cara tulis semula kod lebih bersih, modular dan mudah diselenggara.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SEC: SECURITY -->
+<div class="section" data-kcat="security">
+  <div class="sec-hdr">
+    <div class="sec-ico" style="background:rgba(255,95,109,.15)">🔒</div>
+    <div><div class="sec-title" style="color:var(--v3)">Security Khas</div><div class="sec-sub">Audit, kawalan akses, privasi, log</div></div>
+    <div class="sec-cnt">4 kepakaran</div>
+  </div>
+  <div class="grid">
+    <div class="ecard" data-kcat="security" data-kn="audit keselamatan penuh menyeluruh xss injection" style="border-color:rgba(255,95,109,.25)">
+      <div class="ec-hdr"><div class="ec-num" style="background:rgba(255,95,109,.12);color:var(--v3)">25</div><div><div class="ec-name">Pakar Audit Keselamatan</div><div class="ec-en">Full Security Audit</div></div></div>
+      <div class="ec-div"></div>
+      <div class="ec-body">
+        <div class="ec-desc">Semak menyeluruh dari sudut keselamatan — frontend dan backend sekaligus. Cari semua titik lemah yang boleh dieksploitasi.</div>
+        <div class="checks">
+          <div class="chk"><div class="chk-dot" style="background:var(--v3)"></div>XSS + Injection attacks</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v3)"></div>Akses tanpa kebenaran</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v3)"></div>Pendedahan data sensitif</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v3)"></div>Token & kunci API terdedah</div>
+        </div>
+        <div class="cmd-wrap"><div class="cmd-top"><span>💬 Arahan Claude</span><button class="copy-btn" onclick="copyCmd(this)">Salin</button></div><div class="cmd-txt">Semak sebagai Pakar Audit Keselamatan. Lakukan semakan menyeluruh dan senaraikan kelemahan mengikut keutamaan.</div></div>
+      </div>
+    </div>
+    <div class="ecard" data-kcat="security" data-kn="kawalan akses pengguna peranan role authorization" style="border-color:rgba(255,95,109,.25)">
+      <div class="ec-hdr"><div class="ec-num" style="background:rgba(255,95,109,.12);color:var(--v3)">26</div><div><div class="ec-name">Pakar Kawalan Akses</div><div class="ec-en">Access Control & Roles</div></div></div>
+      <div class="ec-div"></div>
+      <div class="ec-body">
+        <div class="ec-desc">Semak sistem kawalan akses — peranan pengguna, had yang betul, dan kawalan dijalankan di server bukan client sahaja.</div>
+        <div class="checks">
+          <div class="chk"><div class="chk-dot" style="background:var(--v3)"></div>Peranan pengguna (admin/user/viewer)</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v3)"></div>Kawalan akses server-side</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v3)"></div>Emel pengguna sebagai pengecam</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v3)"></div>Session tidak boleh dicuri</div>
+        </div>
+        <div class="cmd-wrap"><div class="cmd-top"><span>💬 Arahan Claude</span><button class="copy-btn" onclick="copyCmd(this)">Salin</button></div><div class="cmd-txt">Semak sebagai Pakar Kawalan Akses. Nilai sistem peranan, had akses dan penguatkuasaan server-side.</div></div>
+      </div>
+    </div>
+    <div class="ecard" data-kcat="security" data-kn="privasi data pdpa perlindungan maklumat peribadi" style="border-color:rgba(255,95,109,.25)">
+      <div class="ec-hdr"><div class="ec-num" style="background:rgba(255,95,109,.12);color:var(--v3)">27</div><div><div class="ec-name">Pakar Privasi Data</div><div class="ec-en">Data Privacy & PDPA</div></div></div>
+      <div class="ec-div"></div>
+      <div class="ec-body">
+        <div class="ec-desc">Semak pematuhan privasi — data peribadi yang dikumpul, cara simpan, siapa boleh akses, selaras dengan PDPA Malaysia.</div>
+        <div class="checks">
+          <div class="chk"><div class="chk-dot" style="background:var(--v3)"></div>Data peribadi dikumpul minimum</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v3)"></div>Penyimpanan data sensitif selamat</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v3)"></div>Akses data terhad</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v3)"></div>Log audit siapa akses apa</div>
+        </div>
+        <div class="cmd-wrap"><div class="cmd-top"><span>💬 Arahan Claude</span><button class="copy-btn" onclick="copyCmd(this)">Salin</button></div><div class="cmd-txt">Semak sebagai Pakar Privasi Data. Nilai pematuhan PDPA, cara data peribadi dikumpul, disimpan dan dilindungi.</div></div>
+      </div>
+    </div>
+    <div class="ecard" data-kcat="security" data-kn="log audit trail jejak aktiviti tindakan history" style="border-color:rgba(255,95,109,.25)">
+      <div class="ec-hdr"><div class="ec-num" style="background:rgba(255,95,109,.12);color:var(--v3)">28</div><div><div class="ec-name">Pakar Log & Audit Trail</div><div class="ec-en">Jejak Aktiviti Sistem</div></div></div>
+      <div class="ec-div"></div>
+      <div class="ec-body">
+        <div class="ec-desc">Semak sistem log — tindakan kritikal dicatat dengan siapa, bila, dan apa yang diubah. Penting untuk akauntabiliti dan debug.</div>
+        <div class="checks">
+          <div class="chk"><div class="chk-dot" style="background:var(--v3)"></div>Catat siapa buat apa & bila</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v3)"></div>Log sebelum & selepas perubahan</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v3)"></div>Log ralat sistem berguna</div>
+          <div class="chk"><div class="chk-dot" style="background:var(--v3)"></div>Log tidak ada data sensitif</div>
+        </div>
+        <div class="cmd-wrap"><div class="cmd-top"><span>💬 Arahan Claude</span><button class="copy-btn" onclick="copyCmd(this)">Salin</button></div><div class="cmd-txt">Semak sebagai Pakar Log & Audit Trail. Nilai pencatatan aktiviti, akauntabiliti tindakan dan kualiti log ralat.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="empty" id="empty-k"><div class="empty-ico">🔍</div><p>Tiada kepakaran yang sepadan. Cuba kata kunci lain.</p></div>
+</main>
+</div><!-- end page-kepakaran -->
+
+<!-- ════════════════════════════════════════════ -->
+<!--  PAGE 2 — GLOSARI UI/UX                     -->
+<!-- ════════════════════════════════════════════ -->
+<div class="page" id="page-glosari">
+<div class="controls" id="ctrl-g" style="display:none">
+  <div class="search-row">
+    <div class="search-wrap">
+      <span class="s-icon">🔍</span>
+      <input class="search-input" id="srch-g" type="text" placeholder="Cari terma UI/UX...">
+    </div>
+  </div>
+  <div class="filter-tabs">
+    <button class="ftab active" onclick="filterG('all',this)">✦ Semua</button>
+    <button class="ftab" onclick="filterG('spacing',this)">📐 Jarak</button>
+    <button class="ftab" onclick="filterG('component',this)">🧩 Komponen</button>
+    <button class="ftab" onclick="filterG('feedback',this)">💬 Maklum Balas</button>
+    <button class="ftab" onclick="filterG('nav',this)">🗺️ Navigasi</button>
+    <button class="ftab" onclick="filterG('form',this)">📝 Form</button>
+    <button class="ftab" onclick="filterG('visual',this)">🎨 Visual</button>
+    <button class="ftab" onclick="filterG('layout',this)">🏗️ Layout</button>
+  </div>
+</div>
+<main>
+
+<!-- SEC: JARAK -->
+<div class="section" data-gcat="spacing">
+  <div class="sec-hdr"><div class="sec-ico" style="background:rgba(139,127,247,.15)">📐</div><div><div class="sec-title" style="color:var(--v1)">Jarak & Ruang</div><div class="sec-sub">Kawalan jarak dalam reka bentuk</div></div><div class="sec-cnt">5 terma</div></div>
+  <div class="grid2">
+
+    <div class="gcard" data-gcat="spacing" data-gn="padding ruang dalam sempadan elemen">
+      <div class="gc-top"><div class="gc-badge" style="color:var(--v1);border-color:rgba(139,127,247,.35)">PADDING</div><div><div class="gc-name">Padding</div><div class="gc-ms">Ruang Dalam</div></div></div>
+      <div class="gc-div"></div>
+      <div class="gc-body"><div class="gc-desc">Ruang kosong di DALAM sempadan elemen. Menjauhkan kandungan dari tepi kotak supaya tidak sesak.</div><div class="gc-eg" style="border-color:var(--v1)">💡 Butang dengan padding 12px = teks ada jarak 12px dari setiap tepi butang.</div>
+        <div class="demo"><div class="demo-lbl">DEMO VISUAL</div><div class="demo-c" style="flex-direction:column"><div class="d-box-out"><span class="d-mlbl">← MARGIN (luar) →</span><div class="d-box-in">KANDUNGAN</div></div><div class="d-plbl">↑ PADDING (dalam) ↑</div></div></div>
+      </div>
+    </div>
+
+    <div class="gcard" data-gcat="spacing" data-gn="margin ruang luar elemen jarak antara">
+      <div class="gc-top"><div class="gc-badge" style="color:var(--v3);border-color:rgba(255,95,109,.35)">MARGIN</div><div><div class="gc-name">Margin</div><div class="gc-ms">Ruang Luar</div></div></div>
+      <div class="gc-div"></div>
+      <div class="gc-body"><div class="gc-desc">Ruang kosong di LUAR sempadan elemen. Menjauhkan elemen dari elemen lain di sekeliling. Tak nampak tapi kawal jarak antara blok.</div><div class="gc-eg" style="border-color:var(--v3)">💡 "Tambah margin bawah 24px pada tajuk" = letak jarak 24px antara tajuk dan perenggan selepasnya.</div></div>
+    </div>
+
+    <div class="gcard" data-gcat="spacing" data-gn="gap jarak seragam antara item grid flex">
+      <div class="gc-top"><div class="gc-badge" style="color:var(--v2);border-color:rgba(6,221,176,.35)">GAP</div><div><div class="gc-name">Gap</div><div class="gc-ms">Jarak Antara Item</div></div></div>
+      <div class="gc-div"></div>
+      <div class="gc-body"><div class="gc-desc">Jarak seragam antara item dalam baris atau grid. Lebih mudah dari margin bila banyak item — satu nilai untuk semua jarak.</div><div class="gc-eg" style="border-color:var(--v2)">💡 Grid kad dengan gap 16px = setiap kad ada jarak 16px antara satu sama lain secara automatik.</div>
+        <div class="demo"><div class="demo-lbl">DEMO VISUAL</div><div class="demo-c"><div style="background:rgba(6,221,176,.2);border:1px solid var(--v2);border-radius:5px;padding:7px 12px;font-size:10px;font-weight:600">A</div><div style="background:rgba(6,221,176,.08);border:1px dashed var(--v2);width:14px;border-radius:2px;display:flex;align-items:center;justify-content:center"><span style="font-size:7px;color:var(--v2);writing-mode:vertical-rl">gap</span></div><div style="background:rgba(6,221,176,.2);border:1px solid var(--v2);border-radius:5px;padding:7px 12px;font-size:10px;font-weight:600">B</div><div style="background:rgba(6,221,176,.08);border:1px dashed var(--v2);width:14px;border-radius:2px;display:flex;align-items:center;justify-content:center"><span style="font-size:7px;color:var(--v2);writing-mode:vertical-rl">gap</span></div><div style="background:rgba(6,221,176,.2);border:1px solid var(--v2);border-radius:5px;padding:7px 12px;font-size:10px;font-weight:600">C</div></div></div>
+      </div>
+    </div>
+
+    <div class="gcard" data-gcat="spacing" data-gn="whitespace ruang putih kosong bersih nafas">
+      <div class="gc-top"><div class="gc-badge" style="color:var(--v4);border-color:rgba(255,202,69,.35)">WHITESPACE</div><div><div class="gc-name">Whitespace</div><div class="gc-ms">Ruang Nafas Reka</div></div></div>
+      <div class="gc-div"></div>
+      <div class="gc-body"><div class="gc-desc">Kawasan sengaja dibiarkan kosong antara elemen. Buat design nampak bersih dan profesional. Tanda design yang baik — bukan pembaziran ruang.</div><div class="gc-eg" style="border-color:var(--v4)">💡 Laman Apple guna banyak whitespace — tiap produk ada ruang besar sekeliling, rasa premium dan fokus.</div></div>
+    </div>
+
+    <div class="gcard" data-gcat="spacing" data-gn="border radius kelengkungan sudut bulat pil">
+      <div class="gc-top"><div class="gc-badge" style="color:var(--v5);border-color:rgba(78,168,255,.35)">BORDER RADIUS</div><div><div class="gc-name">Border Radius</div><div class="gc-ms">Kelengkungan Tepi</div></div></div>
+      <div class="gc-div"></div>
+      <div class="gc-body"><div class="gc-desc">Tahap kelengkungan sudut elemen. 0 = tajam. Nilai tinggi = bulat. 9999px = bentuk pil penuh. 50% = bulatan.</div><div class="gc-eg" style="border-color:var(--v5)">💡 "Butang terlalu tajam, tambah border radius 8px" = bulatkan sikit sudut-sudutnya.</div>
+        <div class="demo"><div class="demo-lbl">DEMO VISUAL</div><div class="demo-c"><div class="d-radius"><div class="d-r" style="border-radius:0;color:var(--v5)">0</div><div class="d-r" style="border-radius:4px;color:var(--v5)">4px</div><div class="d-r" style="border-radius:10px;color:var(--v5)">10px</div><div class="d-r" style="border-radius:999px;color:var(--v5)">Pil</div><div class="d-r" style="border-radius:50%;width:32px;height:32px;padding:0;display:flex;align-items:center;justify-content:center;color:var(--v5)">50%</div></div></div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SEC: KOMPONEN -->
+<div class="section" data-gcat="component">
+  <div class="sec-hdr"><div class="sec-ico" style="background:rgba(6,221,176,.15)">🧩</div><div><div class="sec-title" style="color:var(--v2)">Komponen UI</div><div class="sec-sub">Elemen antaramuka yang biasa digunakan</div></div><div class="sec-cnt">7 terma</div></div>
+  <div class="grid2">
+
+    <div class="gcard" data-gcat="component" data-gn="modal dialog tetingkap timbul overlay konfirmasi">
+      <div class="gc-top"><div class="gc-badge" style="color:var(--v1);border-color:rgba(139,127,247,.35)">MODAL</div><div><div class="gc-name">Modal / Dialog</div><div class="gc-ms">Tetingkap Timbul Tengah</div></div></div>
+      <div class="gc-div"></div>
+      <div class="gc-body"><div class="gc-desc">Kotak yang muncul di tengah skrin dan membekukan latar. Pengguna MESTI interaksi dahulu sebelum teruskan. Untuk pengesahan, borang ringkas, atau amaran penting.</div><div class="gc-eg" style="border-color:var(--v1)">💡 "Adakah anda pasti nak padam rekod ini?" — itu modal konfirmasi.</div>
+        <div class="demo"><div class="demo-lbl">DEMO VISUAL</div><div class="demo-c" style="padding:6px"><div class="d-modal-ov"><div class="d-modal"><div class="d-m-title">⚠️ Padam Rekod</div><div class="d-m-body">Tindakan ini tidak boleh dibatalkan.</div><div class="d-m-btns"><div class="d-btn-sm" style="background:var(--v3);color:#fff">Padam</div><div class="d-btn-sm" style="background:var(--border);color:var(--muted)">Batal</div></div></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="gcard" data-gcat="component" data-gn="button butang primary secondary danger ghost jenis">
+      <div class="gc-top"><div class="gc-badge" style="color:var(--v2);border-color:rgba(6,221,176,.35)">BUTTON STATES</div><div><div class="gc-name">Button States</div><div class="gc-ms">Keadaan & Jenis Butang</div></div></div>
+      <div class="gc-div"></div>
+      <div class="gc-body"><div class="gc-desc">Primary (tindakan utama), Secondary (sokongan), Ghost (garis sahaja), Danger (bahaya). Setiap jenis memberi isyarat berbeza kepada pengguna.</div><div class="gc-eg" style="border-color:var(--v2)">💡 Dalam form: "Simpan" = Primary, "Preview" = Secondary, "Padam" = Danger.</div>
+        <div class="demo"><div class="demo-lbl">DEMO VISUAL</div><div class="demo-c" style="flex-wrap:wrap"><button class="dbtn dbtn-p">Primary</button><button class="dbtn dbtn-s">Secondary</button><button class="dbtn dbtn-g">Ghost</button><button class="dbtn dbtn-d">Danger</button></div></div>
+      </div>
+    </div>
+
+    <div class="gcard" data-gcat="component" data-gn="dropdown senarai jatuh select pilihan menu">
+      <div class="gc-top"><div class="gc-badge" style="color:var(--v4);border-color:rgba(255,202,69,.35)">DROPDOWN</div><div><div class="gc-name">Dropdown / Select</div><div class="gc-ms">Senarai Jatuh</div></div></div>
+      <div class="gc-div"></div>
+      <div class="gc-body"><div class="gc-desc">Menu yang muncul ke bawah apabila diklik. Tunjukkan pilihan tersembunyi untuk jimat ruang. Ada dua jenis: pilihan (select) dan menu tindakan.</div><div class="gc-eg" style="border-color:var(--v4)">💡 Pilih negeri, pilih kategori, menu "Tindakan Lagi..." dalam jadual data.</div>
+        <div class="demo"><div class="demo-lbl">DEMO VISUAL</div><div class="demo-c" style="padding-bottom:65px;align-items:flex-start;padding-top:10px"><div class="d-dd"><div class="d-dd-t">Pilih negeri <span>▾</span></div><div class="d-dd-m"><div class="d-dd-i on">✓ Selangor</div><div class="d-dd-i">Kuala Lumpur</div><div class="d-dd-i">Johor</div></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="gcard" data-gcat="component" data-gn="tabs tab lapisan kandungan tukar halaman">
+      <div class="gc-top"><div class="gc-badge" style="color:var(--v5);border-color:rgba(78,168,255,.35)">TABS</div><div><div class="gc-name">Tabs</div><div class="gc-ms">Tab / Lapisan</div></div></div>
+      <div class="gc-div"></div>
+      <div class="gc-body"><div class="gc-desc">Baris tab di atas kandungan untuk tukar antara paparan berbeza tanpa meninggalkan halaman. Tab aktif biasanya bergaris atau berwarna.</div><div class="gc-eg" style="border-color:var(--v5)">💡 "Profil | Tetapan | Aktiviti" — tiga tab, satu page.</div>
+        <div class="demo"><div class="demo-lbl">DEMO VISUAL</div><div class="demo-c"><div class="d-tabs"><div class="d-tab-bar"><div class="d-tab-i on">Profil</div><div class="d-tab-i">Tetapan</div><div class="d-tab-i">Aktiviti</div></div><div class="d-tab-c">Kandungan tab Profil...</div></div></div></div>
+      </div>
+    </div>
+
+    <div class="gcard" data-gcat="component" data-gn="accordion kembang tutup senarai lipat faq">
+      <div class="gc-top"><div class="gc-badge" style="color:var(--v1);border-color:rgba(139,127,247,.35)">ACCORDION</div><div><div class="gc-name">Accordion</div><div class="gc-ms">Senarai Boleh Kembang</div></div></div>
+      <div class="gc-div"></div>
+      <div class="gc-body"><div class="gc-desc">Senarai item yang boleh diklik untuk kembangkan atau tutup kandungannya. Jimat ruang bila banyak kandungan — pengguna pilih apa yang nak buka.</div><div class="gc-eg" style="border-color:var(--v1)">💡 Bahagian FAQ, tetapan lanjutan, atau senarai kategori produk.</div>
+        <div class="demo"><div class="demo-lbl">DEMO VISUAL</div><div class="demo-c"><div class="d-acc"><div class="a-item"><div class="a-hdr"><span>Soalan 1: Apa itu padding?</span><span style="color:var(--v1)">▾</span></div><div class="a-body">Ruang dalam elemen — antara kandungan dan sempadan.</div></div><div class="a-item"><div class="a-hdr"><span>Soalan 2: Apa itu margin?</span><span>▸</span></div></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="gcard" data-gcat="component" data-gn="toggle switch suis hidup mati tetapan on off">
+      <div class="gc-top"><div class="gc-badge" style="color:var(--v3);border-color:rgba(255,95,109,.35)">TOGGLE</div><div><div class="gc-name">Toggle / Switch</div><div class="gc-ms">Suis Hidup / Mati</div></div></div>
+      <div class="gc-div"></div>
+      <div class="gc-body"><div class="gc-desc">Kawalan dua keadaan: ON atau OFF. Lebih intuitif dari checkbox untuk tetapan yang serta-merta berkuat kuasa apabila ditukar.</div><div class="gc-eg" style="border-color:var(--v3)">💡 Tetapan notifikasi, dark mode, aktifkan akaun pengguna.</div>
+        <div class="demo"><div class="demo-lbl">DEMO VISUAL</div><div class="demo-c"><div class="d-toggle"><div class="tog-track"><div class="tog-thumb"></div></div><span>Notifikasi: <strong style="color:var(--v2)">AKTIF</strong></span></div></div></div>
+      </div>
+    </div>
+
+    <div class="gcard" data-gcat="component" data-gn="skeleton loader pemuat rangka loading placeholder">
+      <div class="gc-top"><div class="gc-badge" style="color:var(--v2);border-color:rgba(6,221,176,.35)">SKELETON</div><div><div class="gc-name">Skeleton Loader</div><div class="gc-ms">Pemuat Rangka</div></div></div>
+      <div class="gc-div"></div>
+      <div class="gc-body"><div class="gc-desc">Placeholder animasi yang meniru bentuk kandungan semasa data dimuatkan. Lebih baik dari spinner — pengguna tahu apa yang akan muncul.</div><div class="gc-eg" style="border-color:var(--v2)">💡 Facebook, LinkedIn guna skeleton loader — siluet post muncul sebelum kandungan sebenar.</div>
+        <div class="demo"><div class="demo-lbl">DEMO — Memuatkan...</div><div class="demo-c" style="flex-direction:column;align-items:flex-start;width:100%"><div style="display:flex;gap:9px;align-items:center;width:100%"><div class="skel av"></div><div style="flex:1"><div class="skel" style="width:70%"></div><div class="skel sh"></div></div></div><div class="skel" style="width:100%;height:8px"></div><div class="skel" style="width:80%;height:8px"></div></div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SEC: MAKLUM BALAS -->
+<div class="section" data-gcat="feedback">
+  <div class="sec-hdr"><div class="sec-ico" style="background:rgba(255,95,109,.15)">💬</div><div><div class="sec-title" style="color:var(--v3)">Maklum Balas Pengguna</div><div class="sec-sub">Cara sistem komunikasi dengan pengguna</div></div><div class="sec-cnt">4 terma</div></div>
+  <div class="grid2">
+
+    <div class="gcard" data-gcat="feedback" data-gn="toast notifikasi pop-up berjaya gagal mesej">
+      <div class="gc-top"><div class="gc-badge" style="color:var(--v2);border-color:rgba(6,221,176,.35)">TOAST</div><div><div class="gc-name">Toast Notification</div><div class="gc-ms">Notifikasi Sebentar</div></div></div>
+      <div class="gc-div"></div>
+      <div class="gc-body"><div class="gc-desc">Mesej kecil yang muncul sebentar (2-4 saat) di sudut skrin kemudian hilang sendiri. Beritahu pengguna tindakan berjaya atau gagal tanpa ganggu aliran.</div><div class="gc-eg" style="border-color:var(--v2)">💡 "✅ Data berjaya disimpan" muncul di bawah kanan lepas klik Simpan.</div>
+        <div class="demo"><div class="demo-lbl">DEMO VISUAL</div><div class="demo-c"><div class="d-toast"><span style="font-size:14px">✅</span><div><div style="font-size:11px;font-weight:600;margin-bottom:2px">Berjaya disimpan!</div><div style="font-size:10px;color:var(--muted)">Rekod telah dikemaskini.</div></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="gcard" data-gcat="feedback" data-gn="tooltip petunjuk timbul hover maklumat tambahan">
+      <div class="gc-top"><div class="gc-badge" style="color:var(--v1);border-color:rgba(139,127,247,.35)">TOOLTIP</div><div><div class="gc-name">Tooltip</div><div class="gc-ms">Petunjuk Timbul</div></div></div>
+      <div class="gc-div"></div>
+      <div class="gc-body"><div class="gc-desc">Kotak kecil yang muncul apabila hover atas elemen. Berikan maklumat tambahan tanpa memenuhi ruang skrin. Hilang bila tetikus beredar.</div><div class="gc-eg" style="border-color:var(--v1)">💡 Hover atas ikon "?" → tooltip: "Masukkan nombor IC tanpa sempang".</div>
+        <div class="demo"><div class="demo-lbl">DEMO VISUAL</div><div class="demo-c" style="padding-top:42px;padding-bottom:14px"><div class="d-tt-wrap"><div class="d-tt-box">Klik untuk eksport sebagai CSV</div><div class="d-tt-trig">📥 Eksport</div></div></div></div>
+      </div>
+    </div>
+
+    <div class="gcard" data-gcat="feedback" data-gn="badge lencana label status kiraan aktif pending">
+      <div class="gc-top"><div class="gc-badge" style="color:var(--v4);border-color:rgba(255,202,69,.35)">BADGE</div><div><div class="gc-name">Badge</div><div class="gc-ms">Lencana / Label Status</div></div></div>
+      <div class="gc-div"></div>
+      <div class="gc-body"><div class="gc-desc">Label kecil berbentuk pil yang melekat pada elemen untuk tunjukkan status, kategori, kiraan atau label ringkas tanpa teks panjang.</div><div class="gc-eg" style="border-color:var(--v4)">💡 "Baru", "3 mesej belum baca", "Aktif", "Urgent" — semua tu badge.</div>
+        <div class="demo"><div class="demo-lbl">DEMO VISUAL</div><div class="demo-c"><div class="d-badges"><div class="d-badge" style="background:rgba(6,221,176,.12);color:var(--v2);border:1px solid rgba(6,221,176,.3)">✓ Aktif</div><div class="d-badge" style="background:rgba(255,95,109,.12);color:var(--v3);border:1px solid rgba(255,95,109,.3)">⚠ Urgent</div><div class="d-badge" style="background:rgba(139,127,247,.12);color:var(--v1);border:1px solid rgba(139,127,247,.3)">✦ Baru</div><div class="d-badge" style="background:rgba(255,202,69,.12);color:var(--v4);border:1px solid rgba(255,202,69,.3)">🕐 Pending</div></div></div></div>
+      </div>
+    </div>
+
+    <div class="gcard" data-gcat="feedback" data-gn="progress bar kemajuan peratus loading upload">
+      <div class="gc-top"><div class="gc-badge" style="color:var(--v5);border-color:rgba(78,168,255,.35)">PROGRESS BAR</div><div><div class="gc-name">Progress Bar</div><div class="gc-ms">Bar Kemajuan</div></div></div>
+      <div class="gc-div"></div>
+      <div class="gc-body"><div class="gc-desc">Bar mendatar yang tunjukkan peratus kemajuan proses. Kurangkan kebimbangan pengguna semasa menunggu — mereka tahu berapa lama lagi.</div><div class="gc-eg" style="border-color:var(--v5)">💡 Upload fail, import data, isi borang berbilang langkah.</div>
+        <div class="demo"><div class="demo-lbl">DEMO VISUAL</div><div class="demo-c"><div class="d-prog"><div class="p-lbl"><span>Memuat naik...</span><span>68%</span></div><div class="p-bg" style="margin-top:5px"><div class="p-fill"></div></div></div></div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SEC: NAVIGASI -->
+<div class="section" data-gcat="nav">
+  <div class="sec-hdr"><div class="sec-ico" style="background:rgba(255,202,69,.15)">🗺️</div><div><div class="sec-title" style="color:var(--v4)">Navigasi</div><div class="sec-sub">Cara pengguna bergerak dalam app</div></div><div class="sec-cnt">4 terma</div></div>
+  <div class="grid2">
+
+    <div class="gcard" data-gcat="nav" data-gn="navbar navigation bar atas pautan menu utama">
+      <div class="gc-top"><div class="gc-badge" style="color:var(--v4);border-color:rgba(255,202,69,.35)">NAVBAR</div><div><div class="gc-name">Navbar</div><div class="gc-ms">Bar Navigasi Atas</div></div></div>
+      <div class="gc-div"></div>
+      <div class="gc-body"><div class="gc-desc">Bar mendatar di bahagian atas halaman — logo, pautan navigasi utama, dan butang CTA atau ikon profil. Pengguna guna ini untuk berpindah halaman utama.</div><div class="gc-eg" style="border-color:var(--v4)">💡 Bar atas dengan "Utama | Laporan | Tetapan | Profil".</div></div>
+    </div>
+
+    <div class="gcard" data-gcat="nav" data-gn="sidebar panel tepi navigasi dashboard admin">
+      <div class="gc-top"><div class="gc-badge" style="color:var(--v1);border-color:rgba(139,127,247,.35)">SIDEBAR</div><div><div class="gc-name">Sidebar</div><div class="gc-ms">Panel Navigasi Tepi</div></div></div>
+      <div class="gc-div"></div>
+      <div class="gc-body"><div class="gc-desc">Panel navigasi di sebelah kiri (atau kanan). Biasa dalam dashboard atau admin dengan banyak menu. Boleh dilipat (collapse) untuk beri lebih ruang kandungan.</div><div class="gc-eg" style="border-color:var(--v1)">💡 Google Analytics, Notion — semua ada sidebar kiri.</div></div>
+    </div>
+
+    <div class="gcard" data-gcat="nav" data-gn="breadcrumb jejak lokasi hierarki halaman kembali">
+      <div class="gc-top"><div class="gc-badge" style="color:var(--v2);border-color:rgba(6,221,176,.35)">BREADCRUMB</div><div><div class="gc-name">Breadcrumb</div><div class="gc-ms">Jejak Lokasi</div></div></div>
+      <div class="gc-div"></div>
+      <div class="gc-body"><div class="gc-desc">Teks navigasi kecil yang tunjukkan pengguna di mana dalam hierarki — macam "roti ke kedai" yang tinggal. Bantu faham struktur dan kembali.</div><div class="gc-eg" style="border-color:var(--v2)">💡 Utama › Laporan › Jualan › Januari 2025</div>
+        <div class="demo"><div class="demo-lbl">DEMO VISUAL</div><div class="demo-c"><div class="d-bc"><span class="d-bc-i" style="text-decoration:underline;cursor:pointer">Utama</span><span class="d-bc-s">›</span><span class="d-bc-i" style="text-decoration:underline;cursor:pointer">Laporan</span><span class="d-bc-s">›</span><span class="d-bc-i on">Jualan</span></div></div></div>
+      </div>
+    </div>
+
+    <div class="gcard" data-gcat="nav" data-gn="hamburger menu tiga baris ikon mobile sembunyi">
+      <div class="gc-top"><div class="gc-badge" style="color:var(--v3);border-color:rgba(255,95,109,.35)">HAMBURGER</div><div><div class="gc-name">Hamburger Menu</div><div class="gc-ms">Ikon Menu Tiga Baris</div></div></div>
+      <div class="gc-div"></div>
+      <div class="gc-body"><div class="gc-desc">Ikon tiga garisan (☰) yang apabila diklik, buka atau tutup menu navigasi. Biasa pada skrin kecil — sembunyi menu utama untuk jimat ruang.</div><div class="gc-eg" style="border-color:var(--v3)">💡 Laman web mobile — ikon ☰ di penjuru kanan atas untuk buka menu.</div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SEC: FORM -->
+<div class="section" data-gcat="form">
+  <div class="sec-hdr"><div class="sec-ico" style="background:rgba(78,168,255,.15)">📝</div><div><div class="sec-title" style="color:var(--v5)">Form & Input</div><div class="sec-sub">Elemen borang dan interaksi pengguna</div></div><div class="sec-cnt">4 terma</div></div>
+  <div class="grid2">
+
+    <div class="gcard" data-gcat="form" data-gn="placeholder teks contoh input hint panduan">
+      <div class="gc-top"><div class="gc-badge" style="color:var(--v5);border-color:rgba(78,168,255,.35)">PLACEHOLDER</div><div><div class="gc-name">Placeholder</div><div class="gc-ms">Teks Contoh Input</div></div></div>
+      <div class="gc-div"></div>
+      <div class="gc-body"><div class="gc-desc">Teks kelabu dalam kotak input sebelum pengguna menaip. Panduan ringkas apa yang perlu diisi. Hilang otomatik bila mula menaip.</div><div class="gc-eg" style="border-color:var(--v5)">💡 Kotak carian dengan placeholder "Cari nama pelanggan..."</div>
+        <div class="demo"><div class="demo-lbl">DEMO VISUAL</div><div class="demo-c"><div class="d-inp-g"><div class="d-lbl">Nama Penuh</div><input class="d-inp" placeholder="cth: Ahmad bin Abdullah"></div></div></div>
+      </div>
+    </div>
+
+    <div class="gcard" data-gcat="form" data-gn="focus state terfokus klik border glow accessibility">
+      <div class="gc-top"><div class="gc-badge" style="color:var(--v1);border-color:rgba(139,127,247,.35)">FOCUS STATE</div><div><div class="gc-name">Focus State</div><div class="gc-ms">Keadaan Terfokus</div></div></div>
+      <div class="gc-div"></div>
+      <div class="gc-body"><div class="gc-desc">Penampilan visual input apabila pengguna klik atau tab ke dalamnya. Border bertukar warna, ada "glow" sekeliling. Penting untuk accessibility.</div><div class="gc-eg" style="border-color:var(--v1)">💡 Klik kotak emel → border jadi ungu + bayang cahaya sekeliling.</div>
+        <div class="demo"><div class="demo-lbl">DEMO VISUAL</div><div class="demo-c"><div class="d-inp-g"><div class="d-lbl">Normal vs Fokus</div><input class="d-inp" placeholder="Input biasa"><input class="d-inp foc" value="email@contoh.com"></div></div></div>
+      </div>
+    </div>
+
+    <div class="gcard" data-gcat="form" data-gn="validation pengesahan borang ralat mesej salah format">
+      <div class="gc-top"><div class="gc-badge" style="color:var(--v3);border-color:rgba(255,95,109,.35)">VALIDATION</div><div><div class="gc-name">Form Validation</div><div class="gc-ms">Pengesahan Borang</div></div></div>
+      <div class="gc-div"></div>
+      <div class="gc-body"><div class="gc-desc">Semakan pada input pengguna sebelum dihantar. Boleh real-time atau selepas submit. Tunjukkan mesej ralat yang jelas supaya pengguna tahu apa yang salah.</div><div class="gc-eg" style="border-color:var(--v3)">💡 Kotak telefon merah dengan mesej "Format tidak sah — gunakan 01x-xxxxxxx".</div>
+        <div class="demo"><div class="demo-lbl">DEMO VISUAL</div><div class="demo-c"><div class="d-inp-g"><div class="d-lbl">No. Telefon</div><input class="d-inp err" value="0123abc456"><div class="d-err">⚠ Format tidak sah. Contoh: 012-3456789</div></div></div></div>
+      </div>
+    </div>
+
+    <div class="gcard" data-gcat="form" data-gn="chip tag label boleh buang multi-select kategori">
+      <div class="gc-top"><div class="gc-badge" style="color:var(--v2);border-color:rgba(6,221,176,.35)">CHIP / TAG</div><div><div class="gc-name">Chip / Tag</div><div class="gc-ms">Label Boleh Buang</div></div></div>
+      <div class="gc-div"></div>
+      <div class="gc-body"><div class="gc-desc">Elemen kecil berbentuk pil mewakili pilihan yang dipilih. Boleh dibuang dengan klik "×". Untuk multi-select, penanda kategori, atau tag.</div><div class="gc-eg" style="border-color:var(--v2)">💡 Field Kategori: [Jualan ×] [Laporan ×] [Admin ×]</div>
+        <div class="demo"><div class="demo-lbl">DEMO VISUAL</div><div class="demo-c"><div class="d-chips"><div class="d-chip"><span class="chip-d" style="background:var(--v1)"></span>Jualan <span style="color:var(--muted);margin-left:3px;cursor:pointer">×</span></div><div class="d-chip"><span class="chip-d" style="background:var(--v2)"></span>Laporan <span style="color:var(--muted);margin-left:3px;cursor:pointer">×</span></div><div class="d-chip"><span class="chip-d" style="background:var(--v3)"></span>Admin <span style="color:var(--muted);margin-left:3px;cursor:pointer">×</span></div></div></div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SEC: VISUAL -->
+<div class="section" data-gcat="visual">
+  <div class="sec-hdr"><div class="sec-ico" style="background:rgba(255,95,109,.15)">🎨</div><div><div class="sec-title" style="color:var(--v3)">Visual & Warna</div><div class="sec-sub">Estetik dan kedalaman visual</div></div><div class="sec-cnt">5 terma</div></div>
+  <div class="grid2">
+
+    <div class="gcard" data-gcat="visual" data-gn="primary accent color warna utama jenama highlight">
+      <div class="gc-top"><div class="gc-badge" style="color:var(--v1);border-color:rgba(139,127,247,.35)">PRIMARY COLOR</div><div><div class="gc-name">Primary / Accent Color</div><div class="gc-ms">Warna Utama & Aksen</div></div></div>
+      <div class="gc-div"></div>
+      <div class="gc-body"><div class="gc-desc">Primary = warna jenama dominan. Accent = warna sokongan untuk highlight, butang CTA, atau elemen penting. Kedua-dua bekerja bersama dalam sistem warna.</div><div class="gc-eg" style="border-color:var(--v1)">💡 Maybank = kuning (primary), hijau (accent). Google = biru (primary), merah/kuning/hijau (accent).</div></div>
+    </div>
+
+    <div class="gcard" data-gcat="visual" data-gn="overlay backdrop lapisan gelap modal blur latar">
+      <div class="gc-top"><div class="gc-badge" style="color:var(--v3);border-color:rgba(255,95,109,.35)">OVERLAY</div><div><div class="gc-name">Overlay / Backdrop</div><div class="gc-ms">Lapisan Tutup Latar</div></div></div>
+      <div class="gc-div"></div>
+      <div class="gc-body"><div class="gc-desc">Lapisan separa telus yang meliputi latar apabila modal dibuka. "Memburamkan" kandungan latar supaya fokus pada kandungan hadapan.</div><div class="gc-eg" style="border-color:var(--v3)">💡 Latar jadi gelap bila modal muncul — kawasan gelap itu = overlay/backdrop.</div></div>
+    </div>
+
+    <div class="gcard" data-gcat="visual" data-gn="gradient warna beransur linear radial latar butang">
+      <div class="gc-top"><div class="gc-badge" style="color:var(--v2);border-color:rgba(6,221,176,.35)">GRADIENT</div><div><div class="gc-name">Gradient</div><div class="gc-ms">Warna Beransur</div></div></div>
+      <div class="gc-div"></div>
+      <div class="gc-body"><div class="gc-desc">Peralihan warna beransur dari satu ke satu lain. Linear = lurus. Radial = dari tengah keluar. Pada latar, butang, teks atau border.</div><div class="gc-eg" style="border-color:var(--v2)">💡 Butang berubah dari ungu ke biru dari kiri ke kanan = linear gradient.</div>
+        <div class="demo"><div class="demo-lbl">DEMO VISUAL</div><div class="demo-c"><div class="d-grads"><div class="d-grad" style="background:linear-gradient(90deg,var(--v1),var(--v2))"></div><div class="d-grad" style="background:linear-gradient(90deg,var(--v3),var(--v4))"></div><div class="d-grad" style="background:radial-gradient(circle,var(--v1) 0%,var(--v5) 100%)"></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="gcard" data-gcat="visual" data-gn="typography tipografi font saiz berat line height">
+      <div class="gc-top"><div class="gc-badge" style="color:var(--v4);border-color:rgba(255,202,69,.35)">TYPOGRAPHY</div><div><div class="gc-name">Typography</div><div class="gc-ms">Tipografi / Seni Teks</div></div></div>
+      <div class="gc-div"></div>
+      <div class="gc-body"><div class="gc-desc">Seni susun atur teks — font family, font size, font weight (bold/regular/light), line height (jarak baris), letter spacing. Semua pengaruhi keterbacaan.</div><div class="gc-eg" style="border-color:var(--v4)">💡 "Font terlalu kecil, naikkan ke 16px dan tambah line-height 1.6 untuk mudah dibaca."</div>
+        <div class="demo"><div class="demo-lbl">DEMO VISUAL</div><div class="demo-c"><div class="d-typo"><div style="font-size:18px;font-weight:800;font-family:var(--fh)">Heading — Bold 800</div><div style="font-size:13px;font-weight:600">Subheading — 600</div><div style="font-size:11px;color:var(--muted);font-weight:300;line-height:1.6">Body text — ringan, line-height selesa untuk dibaca panjang.</div><div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)">LABEL — SPACED</div></div></div></div>
+      </div>
+    </div>
+
+    <div class="gcard" data-gcat="visual" data-gn="shadow box drop bayang kedalaman elevation 3d">
+      <div class="gc-top"><div class="gc-badge" style="color:var(--v5);border-color:rgba(78,168,255,.35)">SHADOW</div><div><div class="gc-name">Box Shadow</div><div class="gc-ms">Bayang & Kedalaman</div></div></div>
+      <div class="gc-div"></div>
+      <div class="gc-body"><div class="gc-desc">Bayang di sekeliling elemen untuk beri kesan kedalaman 3D. Bayang kecil = hampir dengan permukaan. Bayang besar = menonjol jauh ke atas.</div><div class="gc-eg" style="border-color:var(--v5)">💡 Kad yang hover naik = combinasi transform translateY dan shadow lebih besar.</div>
+        <div class="demo"><div class="demo-lbl">DEMO VISUAL</div><div class="demo-c"><div class="d-shadows"><div class="d-shad-box" style="box-shadow:0 2px 4px rgba(0,0,0,.4)">Kecil</div><div class="d-shad-box" style="box-shadow:0 8px 24px rgba(0,0,0,.55)">Sederhana</div><div class="d-shad-box" style="box-shadow:0 20px 60px rgba(139,127,247,.3)">Besar</div></div></div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SEC: LAYOUT -->
+<div class="section" data-gcat="layout">
+  <div class="sec-hdr"><div class="sec-ico" style="background:rgba(6,221,176,.15)">🏗️</div><div><div class="sec-title" style="color:var(--v2)">Layout & Susun Atur</div><div class="sec-sub">Grid, Flexbox, Responsive dan lapisan Z</div></div><div class="sec-cnt">4 terma</div></div>
+  <div class="grid2">
+
+    <div class="gcard" data-gcat="layout" data-gn="grid layout susun kotak lajur baris kad">
+      <div class="gc-top"><div class="gc-badge" style="color:var(--v2);border-color:rgba(6,221,176,.35)">GRID</div><div><div class="gc-name">Grid Layout</div><div class="gc-ms">Susun Atur Kotak-Kotak</div></div></div>
+      <div class="gc-div"></div>
+      <div class="gc-body"><div class="gc-desc">Sistem susun atur dua dimensi (baris DAN lajur) untuk susun elemen dalam corak teratur. Sesuai untuk galeri, kad produk, dashboard widget.</div><div class="gc-eg" style="border-color:var(--v2)">💡 "Grid 3 lajur untuk kad produk" = 3 kad sejajar, baris baru kalau lebih.</div></div>
+    </div>
+
+    <div class="gcard" data-gcat="layout" data-gn="flexbox flex susun atur fleksibel baris lajur align">
+      <div class="gc-top"><div class="gc-badge" style="color:var(--v1);border-color:rgba(139,127,247,.35)">FLEXBOX</div><div><div class="gc-name">Flexbox</div><div class="gc-ms">Susun Atur Fleksibel</div></div></div>
+      <div class="gc-div"></div>
+      <div class="gc-body"><div class="gc-desc">Sistem susun atur satu dimensi (baris ATAU lajur) yang fleksibel. Sesuai untuk align elemen dalam satu baris — ikon+teks, butang berjajar, navbar.</div><div class="gc-eg" style="border-color:var(--v1)">💡 "Flex dan justify-content center" = letak semua item tengah secara mendatar.</div></div>
+    </div>
+
+    <div class="gcard" data-gcat="layout" data-gn="responsive design breakpoint mobile tablet skrin kecil">
+      <div class="gc-top"><div class="gc-badge" style="color:var(--v3);border-color:rgba(255,95,109,.35)">RESPONSIVE</div><div><div class="gc-name">Responsive Design</div><div class="gc-ms">Reka Bentuk Responsif</div></div></div>
+      <div class="gc-div"></div>
+      <div class="gc-body"><div class="gc-desc">Reka bentuk yang menyesuaikan diri mengikut saiz skrin. Guna "breakpoint" untuk tentukan bila layout perlu berubah — desktop, tablet, telefon.</div><div class="gc-eg" style="border-color:var(--v3)">💡 Grid 4 lajur desktop → 2 lajur tablet → 1 lajur telefon.</div></div>
+    </div>
+
+    <div class="gcard" data-gcat="layout" data-gn="z-index lapisan depan belakang modal dropdown bertindih">
+      <div class="gc-top"><div class="gc-badge" style="color:var(--v4);border-color:rgba(255,202,69,.35)">Z-INDEX</div><div><div class="gc-name">Z-Index</div><div class="gc-ms">Susun Lapisan Depan/Belakang</div></div></div>
+      <div class="gc-div"></div>
+      <div class="gc-body"><div class="gc-desc">Nombor yang tentukan elemen mana di hadapan atau belakang apabila bertindih. Nombor lebih tinggi = depan. Penting untuk modal, tooltip, dropdown.</div><div class="gc-eg" style="border-color:var(--v4)">💡 Modal kena ada z-index tinggi (9999) supaya muncul atas semua elemen lain.</div>
+        <div class="demo"><div class="demo-lbl">DEMO VISUAL</div><div class="demo-c" style="position:relative;height:72px;width:100%"><div class="dz" style="left:10px;top:10px;background:rgba(255,95,109,.2);border:1px solid var(--v3)">z:1</div><div class="dz" style="left:44px;top:18px;background:rgba(139,127,247,.4);border:1px solid var(--v1)">z:2</div><div class="dz" style="left:84px;top:6px;background:rgba(6,221,176,.5);border:1px solid var(--v2)">z:3 ←depan</div></div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="empty" id="empty-g"><div class="empty-ico">🔍</div><p>Tiada terma yang sepadan. Cuba kata kunci lain.</p></div>
+</main>
+</div><!-- end page-glosari -->
+
+<footer>⚡ GAS Dev Hub &nbsp;|&nbsp; 28 Kepakaran • 37 Terma UI/UX • 7+7 Kategori &nbsp;|&nbsp; Salin arahan dan tampal dalam chat Claude</footer>
+
+<script>
+// ── PAGE SWITCH ──
+function showPage(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  document.querySelectorAll('.main-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('ctrl-k').style.display = id === 'kepakaran' ? '' : 'none';
+  document.getElementById('ctrl-g').style.display = id === 'glosari' ? '' : 'none';
+  document.getElementById('combo-wrap').style.display = id === 'kepakaran' ? '' : 'none';
+}
+document.getElementById('ctrl-g').style.display = 'none';
+
+// ── COPY CMD ──
+function copyCmd(btn) {
+  const txt = btn.closest('.cmd-wrap').querySelector('.cmd-txt').textContent.trim();
+  navigator.clipboard.writeText(txt).then(() => {
+    btn.textContent = '✓ Disalin!'; btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = 'Salin'; btn.classList.remove('ok'); }, 2000);
+  });
+}
+
+// ── COPY COMBO ──
+function copyCombo(card) {
+  const txt = card.querySelector('.ccard-p').textContent.trim();
+  navigator.clipboard.writeText(txt).then(() => {
+    const el = card.querySelector('.ccard-copy');
+    el.textContent = '✓ Disalin! Tampal dalam chat Claude';
+    card.style.borderColor = 'var(--v2)';
+    setTimeout(() => { el.textContent = '📋 Klik untuk salin'; card.style.borderColor = ''; }, 2500);
+  });
+}
+
+// ── FILTER KEPAKARAN ──
+let kCat = 'all';
+function filterK(cat, btn) {
+  kCat = cat;
+  document.querySelectorAll('#page-kepakaran .ftab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('combo-wrap').style.display = cat === 'all' ? '' : 'none';
+  applyK();
+}
+document.getElementById('srch-k').addEventListener('input', applyK);
+function applyK() {
+  const q = document.getElementById('srch-k').value.toLowerCase().trim();
+  let any = false;
+  document.querySelectorAll('.ecard').forEach(c => {
+    const cats = (c.dataset.kcat || '').split(' ');
+    const match = (kCat === 'all' || cats.includes(kCat)) && (!q || (c.dataset.kn || '').toLowerCase().includes(q));
+    c.toggleAttribute('hidden', !match);
+    if (match) any = true;
+  });
+  document.querySelectorAll('#page-kepakaran .section').forEach(s => {
+    s.style.display = s.querySelectorAll('.ecard:not([hidden])').length ? '' : 'none';
+  });
+  document.getElementById('empty-k').style.display = any ? 'none' : 'block';
+}
+
+// ── FILTER GLOSARI ──
+let gCat = 'all';
+function filterG(cat, btn) {
+  gCat = cat;
+  document.querySelectorAll('#page-glosari .ftab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  applyG();
+}
+document.getElementById('srch-g').addEventListener('input', applyG);
+function applyG() {
+  const q = document.getElementById('srch-g').value.toLowerCase().trim();
+  let any = false;
+  document.querySelectorAll('.gcard').forEach(c => {
+    const match = (gCat === 'all' || c.dataset.gcat === gCat) && (!q || (c.dataset.gn || '').toLowerCase().includes(q));
+    c.toggleAttribute('hidden', !match);
+    if (match) any = true;
+  });
+  document.querySelectorAll('#page-glosari .section').forEach(s => {
+    s.style.display = s.querySelectorAll('.gcard:not([hidden])').length ? '' : 'none';
+  });
+  document.getElementById('empty-g').style.display = any ? 'none' : 'block';
+}
+</script>
+</body>
+</html>
