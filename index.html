@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>GAS DEV Hub</title>
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="/devgas/manifest.json" />
+
+  <!-- iOS PWA Support -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="DEV GAS" />
+  <link rel="apple-touch-icon" href="/devgas/icon-192.png" />
+
+  <!-- Theme -->
+  <meta name="theme-color" content="#00c853" />
+  <meta name="msapplication-TileColor" content="#000000" />
+  <meta name="msapplication-TileImage" content="/devgas/icon-192.png" />
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100dvh;
+      font-family: sans-serif;
+      overflow: hidden;
+    }
+
+    #splash {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      transition: opacity 0.5s ease;
+    }
+
+    #splash img {
+      width: 120px;
+      border-radius: 24px;
+      animation: pulse 1.5s infinite ease-in-out;
+    }
+
+    #splash p {
+      color: #00c853;
+      margin-top: 16px;
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.05); opacity: 0.85; }
+    }
+
+    iframe {
+      border: none;
+      width: 100%;
+      height: 100dvh;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Splash screen -->
+  <div id="splash">
+    <img src="/devgas/icon-192.png" alt="GAS DEV Hub" />
+    <p>Memuatkan GAS DEV Hub...</p>
+  </div>
+
+  <!-- Main App iframe -->
+  <iframe
+    id="appFrame"
+    src="https://script.google.com/macros/s/AKfycbyylst9u_yxRxGkgYf-zj_ZlBOcO_kZe8asRfJgK8E0u9gIxnRtic5CnbUk9WD7hFC3ng/exec"
+    title="GAS DEV Hub"
+    allow="fullscreen"
+    onload="hideSplash()"
+  ></iframe>
+
+  <script>
+    // Register Service Worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/devgas/sw.js', { scope: '/devgas/' })
+        .then(reg => console.log('SW registered:', reg.scope))
+        .catch(err => console.warn('SW registration failed:', err));
+    }
+
+    // Hide splash after iframe loads
+    function hideSplash() {
+      const splash = document.getElementById('splash');
+      splash.style.opacity = '0';
+      setTimeout(() => splash.style.display = 'none', 500);
+    }
+
+    // Fallback: hide splash after 5s if iframe doesn't fire onload
+    setTimeout(hideSplash, 5000);
+  </script>
+</body>
+</html>
